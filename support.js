@@ -1894,7 +1894,7 @@
       __dcRegistry: runtime.registry.entries,
       getDC: (name) => runtime.getDC(name),
       // `DCLogic` is the documented base class name; `StreamableLogic` is the
-      // implementation alias kept for any project that already references it
+      // implementation alias kept for any project that already references it.
       DCLogic: runtime.StreamableLogic,
       StreamableLogic: runtime.StreamableLogic
     };
