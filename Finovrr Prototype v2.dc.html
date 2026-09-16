@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-537434a9-96cd-4691-9777-1f0dedaa7f73/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --color-bg: #f4f7fb;
+    --color-surface: #ffffff;
+    --color-text: #0b2545;
+    --color-accent: #1f6feb;
+    --color-divider: #dde7f3;
+    --navy: #0b2545;
+    --navy-2: #123258;
+    --ink-600: #5b7391;
+    --ink-500: #8098b4;
+    --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+    --shadow-sm: 0 1px 2px rgba(11,37,69,.06), 0 1px 3px rgba(11,37,69,.05);
+    --shadow-md: 0 6px 18px rgba(11,37,69,.08);
+    --ease: cubic-bezier(.32,.72,0,1);
+  }
+  body { margin:0; background:var(--color-bg); -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,h4 { letter-spacing:-.02em; }
+  a { color:#1257c4; text-decoration:none; }
+  a:hover { color:var(--color-accent); }
+  button, input, select, textarea { font-family:var(--font-body); }
+  button { transition: background-color .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), box-shadow .18s var(--ease), transform .18s var(--ease); }
+  .fv-in { animation: fvIn .26s var(--ease) both; }
+  .fv-tick { animation: fvTick .42s var(--ease) both; }
+  @keyframes fvTick {
+    0%   { opacity:0; transform:scale(.6) translateX(-4px) }
+    55%  { opacity:1; transform:scale(1.14) translateX(0) }
+    100% { opacity:1; transform:scale(1) }
+  }
+  @keyframes fvIn { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:none } }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important } }
+  .fv-scroll::-webkit-scrollbar { width:10px; height:10px }
+  .fv-scroll::-webkit-scrollbar-thumb { background:#c9d8ea; border-radius:999px; border:3px solid var(--color-bg) }
+  .fv-scroll::-webkit-scrollbar-track { background:transparent }
+  .fv-inp { width:100%; box-sizing:border-box; font-size:14px; color:var(--color-text); background:#fff; border:1px solid var(--color-divider); border-radius:8px; padding:10px 12px; outline:none; transition: border-color .15s ease, box-shadow .15s ease }
+  .fv-inp:focus { border-color:var(--color-accent); box-shadow:0 0 0 3px rgba(31,111,235,.14) }
+  .fv-lbl { display:block; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-600); margin-bottom:6px }
+  .fv-row:hover { background:#f7fafd }
+</style>
+</helmet>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;font-family:var(--font-body);color:var(--color-text);background:#fff">
+  <div style="background:linear-gradient(180deg,#0b2545 0%,#123258 100%);color:#fff;padding:56px 60px;display:flex;flex-direction:column;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:34px;height:34px;border-radius:9px;background:var(--color-accent);display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:15px">F</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:19px;letter-spacing:.02em">FINOVRR</div>
+    </div>
+    <div style="max-width:420px">
+      <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:16px">Adverse media investigation platform</div>
+      <h1 style="font-size:40px;line-height:1.1;margin:0 0 18px;font-family:var(--font-heading);font-weight:800">Evidence-led screening, reviewed by the right people.</h1>
+      <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,.72);margin:0">Upload, process, review at L1, escalate to L2 where secondary review is required, then sign off — one auditable trail from document to decision.</p>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.5)">Access and permissions are derived from your organisation identity.</div>
+  </div>
+
+  <div style="display:grid;place-items:center;padding:48px 40px">
+    <div style="width:100%;max-width:392px">
+      <h2 style="font-size:27px;margin:0 0 6px;font-family:var(--font-heading);font-weight:800">Sign in</h2>
+
+      <sc-if value="{{ atIdStep }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <p style="font-size:13px;color:var(--ink-600);margin:0 0 26px;line-height:1.55">Step 1 of 2 — enter your organisation ID. We verify it against your directory before asking for a password.</p>
+          <div style="margin-bottom:14px">
+            <label class="fv-lbl">ID</label>
+            <input class="fv-inp" type="email" placeholder="name@finovrr.com" value="{{ loginEmail }}" onChange="{{ onLoginEmail }}" onKeyDown="{{ onIdKeyDown }}">
+          </div>
+          <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+            <div style="border-left:3px solid #c62828;background:#fdecec;padding:9px 12px;font-size:12px;color:#8c1d1d;border-radius:0 6px 6px 0;margin-bottom:14px">That ID is not in your organisation directory.</div>
+          </sc-if>
+          <button style="width:100%;border:0;cursor:pointer;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:9px;padding:13px 16px;box-shadow:0 2px 8px rgba(31,111,235,.28)" style-hover="background:#3d8bf5" onClick="{{ onCheckId }}">Continue</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ atPasswordStep }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <p style="font-size:13px;color:var(--ink-600);margin:0 0 22px;line-height:1.55">Step 2 of 2 — ID verified. Enter your password to sign in.</p>
+          <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--color-divider);border-radius:10px;box-shadow:var(--shadow-sm);padding:11px 13px;margin-bottom:18px">
+            <div style="width:30px;height:30px;flex:none;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:11px">{{ pendingInitials }}</div>
+            <div style="min-width:0;flex:1">
+              <div style="font-size:13px;font-family:var(--font-heading);font-weight:800">{{ pendingName }}</div>
+              <div style="font-size:11px;color:var(--ink-600)">{{ loginEmail }}</div>
+            </div>
+            <button style="flex:none;background:none;border:none;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#1257c4;cursor:pointer" onClick="{{ onBackToId }}">Change</button>
+          </div>
+          <div style="margin-bottom:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <label class="fv-lbl">Password</label>
+              <button style="background:none;border:none;padding:0 0 6px;font-size:12px;font-weight:700;color:#1257c4;cursor:pointer" onClick="{{ onTogglePassword }}">{{ passwordToggleLabel }}</button>
+            </div>
+            <input class="fv-inp" type="{{ passwordInputType }}" placeholder="••••••••" value="{{ loginPassword }}" onChange="{{ onLoginPassword }}" onKeyDown="{{ onPasswordKeyDown }}">
+          </div>
+          <sc-if value="{{ passwordError }}" hint-placeholder-val="{{ false }}">
+            <div style="border-left:3px solid #c62828;background:#fdecec;padding:9px 12px;font-size:12px;color:#8c1d1d;border-radius:0 6px 6px 0;margin-bottom:14px">Enter a password to continue. Any value is accepted in this prototype.</div>
+          </sc-if>
+          <div style="display:flex;gap:10px">
+            <button style="flex:none;cursor:pointer;background:#fff;border:1px solid var(--color-divider);color:var(--color-text);font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:9px;padding:13px 18px" style-hover="background:#eef4fd" onClick="{{ onBackToId }}">Back</button>
+            <button style="flex:1;border:0;cursor:pointer;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:9px;padding:13px 16px;box-shadow:0 2px 8px rgba(31,111,235,.28)" style-hover="background:#3d8bf5" onClick="{{ onSignIn }}">Sign in</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showDemo }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:30px;border-top:1px solid var(--color-divider);padding-top:18px">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500);margin-bottom:10px">Prototype identities — development only</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ directory }}" as="d" hint-placeholder-count="3">
+            <button onClick="{{ d.onPick }}" style="display:flex;align-items:center;gap:11px;text-align:left;cursor:pointer;background:#fff;border:1px solid var(--color-divider);border-radius:10px;padding:10px 12px" style-hover="border-color:#a9cdff;background:#f6faff">
+              <div style="width:28px;height:28px;flex:none;border-radius:8px;background:#eaf3ff;color:#0e4396;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:11px">{{ d.initials }}</div>
+              <div style="min-width:0;flex:1">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800">{{ d.name }}</div>
+                <div style="font-size:11px;color:var(--ink-600)">{{ d.roleLabel }}</div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+        <p style="font-size:11px;color:var(--ink-500);margin-top:12px;line-height:1.5">Selecting an identity fills the ID and moves to the password step. Roles are never chosen at sign-in — they come from the identity.</p>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+<div style="height:100vh;overflow:hidden;display:flex;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+  <aside style="width:268px;flex:none;background:linear-gradient(180deg,#0b2545 0%,#0e2b50 100%);color:#fff;display:flex;flex-direction:column">
+    <div style="padding:20px 18px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(255,255,255,.09)">
+      <div style="width:30px;height:30px;border-radius:8px;background:var(--color-accent);display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:14px">F</div>
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:.03em">FINOVRR</div>
+    </div>
+
+    <sc-if value="{{ canCreate }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:16px 14px 6px">
+      <button onClick="{{ onNew }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:0;cursor:pointer;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:10px;padding:13px 14px;box-shadow:0 4px 14px rgba(31,111,235,.35)" style-hover="background:#3d8bf5;transform:translateY(-1px)">
+        <span style="font-size:17px;line-height:1">+</span><span>New Investigation</span>
+      </button>
+    </div>
+    </sc-if>
+
+    <nav style="padding:14px 14px 8px;display:flex;flex-direction:column;gap:7px">
+      <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);padding:6px 4px 6px">Workspace</div>
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="2">
+        <button onClick="{{ item.onClick }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;border:1px solid {{ item.border }};border-radius:11px;padding:13px 13px;font-family:var(--font-heading);font-weight:800;font-size:15px;background:{{ item.bg }};color:{{ item.fg }};box-shadow:{{ item.shadow }}" style-hover="background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.26)">
+          <span style="width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;font-size:12px;letter-spacing:.03em;background:{{ item.tileBg }};color:{{ item.tileFg }}">{{ item.glyph }}</span>
+          <span style="flex:1;min-width:0">{{ item.label }}</span>
+          <sc-if value="{{ item.count }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;background:rgba(255,255,255,.16)">{{ item.count }}</span>
+          </sc-if>
+        </button>
+      </sc-for>
+    </nav>
+
+    <div style="flex:1"></div>
+    <div style="padding:16px 16px 18px;border-top:1px solid rgba(255,255,255,.09)">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px">
+        <div style="width:34px;height:34px;flex:none;border-radius:10px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:12px">{{ userInitials }}</div>
+        <div style="min-width:0">
+          <div style="font-size:13px;font-family:var(--font-heading);font-weight:800">{{ userName }}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6)">{{ userRoleLabel }}</div>
+        </div>
+      </div>
+      <button onClick="{{ onLogout }}" style="width:100%;cursor:pointer;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.86);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:9px;padding:10px" style-hover="background:rgba(255,255,255,.14)">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="fv-scroll" style="flex:1;min-width:0;min-height:0;overflow:auto">
+    <header style="position:sticky;top:0;z-index:20;background:rgba(244,247,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--color-divider);padding:16px 28px;display:flex;align-items:center;gap:18px">
+      <div style="min-width:0;flex:1">
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500)">{{ crumb }}</div>
+        <h1 style="margin:2px 0 0;font-family:var(--font-heading);font-weight:800;font-size:22px">{{ pageTitle }}</h1>
+      </div>
+      <div style="font-size:12px;color:var(--ink-600);text-align:right">
+        <div style="font-weight:700;color:var(--color-text)">{{ userName }}</div>
+        <div>{{ userRoleLabel }}</div>
+      </div>
+    </header>
+
+    <div style="padding:24px 28px 44px">
+
+      <sc-if value="{{ isDenied }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in" style="max-width:560px;margin:56px auto;background:#fff;border:1px solid var(--color-divider);border-radius:14px;box-shadow:var(--shadow-md);padding:34px;text-align:center">
+        <div style="width:46px;height:46px;margin:0 auto 16px;border-radius:12px;background:#fdecec;color:#8c1d1d;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:20px">!</div>
+        <h2 style="margin:0 0 8px;font-size:21px;font-family:var(--font-heading);font-weight:800">Access denied</h2>
+        <p style="margin:0 0 22px;font-size:14px;line-height:1.6;color:var(--ink-600)">{{ deniedMessage }}</p>
+        <button onClick="{{ onGoDashboard }}" style="border:0;cursor:pointer;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:9px;padding:12px 22px" style-hover="background:#3d8bf5">Return to Dashboard</button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:18px">
+          <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:16px 17px">
+              <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-600);margin-bottom:10px">{{ t.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <div style="font-family:var(--font-heading);font-weight:800;font-size:31px;line-height:1;color:{{ t.color }}">{{ t.value }}</div>
+                <div style="font-size:12px;color:var(--ink-600)">{{ t.unit }}</div>
+              </div>
+              <div style="font-size:12px;color:var(--ink-600);margin-top:9px;line-height:1.45">{{ t.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:{{ l2Card.bg }};border:1px solid {{ l2Card.border }};border-radius:12px;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-bottom:22px">
+          <div style="min-width:220px;flex:1">
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:{{ l2Card.kicker }};font-weight:700;margin-bottom:6px">L2 review required</div>
+            <div style="font-family:var(--font-heading);font-weight:800;font-size:19px;margin-bottom:4px">{{ l2Card.headline }}</div>
+            <div style="font-size:13px;color:var(--ink-600)">{{ l2Card.sub }}</div>
+          </div>
+          <button onClick="{{ l2Card.onCta }}" style="border:1px solid {{ l2Card.ctaBorder }};cursor:pointer;background:{{ l2Card.ctaBg }};color:{{ l2Card.ctaFg }};font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:12px 18px" style-hover="filter:brightness(1.06)">{{ l2Card.cta }}</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start">
+          <div style="min-width:0;display:flex;flex-direction:column;gap:18px">
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+              <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:12px">
+                <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800;flex:1">My work queue</h3>
+                <span style="font-size:12px;color:var(--ink-600)">{{ queueNote }}</span>
+              </div>
+              <sc-if value="{{ hasQueue }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <sc-for list="{{ myQueue }}" as="c" hint-placeholder-count="3">
+                  <div class="fv-row" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid #eef3f9">
+                    <div style="min-width:200px;flex:1">
+                      <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+                        <span style="font-family:var(--font-heading);font-weight:800;font-size:13px">{{ c.id }}</span>
+                        <span style="font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:{{ c.statusBg }};color:{{ c.statusFg }}">{{ c.statusLabel }}</span>
+                        <span style="font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:{{ c.riskBg }};color:{{ c.riskFg }}">{{ c.riskLabel }}</span>
+                      </div>
+                      <div style="font-size:14px;font-weight:600">{{ c.entityName }}</div>
+                      <div style="font-size:12px;color:var(--ink-600);margin-top:3px">{{ c.metaLine }}</div>
+                    </div>
+                    <button onClick="{{ c.onOpen }}" style="flex:none;cursor:pointer;border:1px solid {{ c.actBorder }};background:{{ c.actBg }};color:{{ c.actFg }};font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:10px 16px" style-hover="filter:brightness(1.05)">{{ c.actLabel }}</button>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:30px 18px;text-align:center;font-size:13px;color:var(--ink-600)">Nothing is actionable by you right now.</div>
+              </sc-if>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+              <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:12px">
+                <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800;flex:1">Recently created</h3>
+                <span style="font-size:12px;color:var(--ink-600)">Assignment shown — not necessarily your work</span>
+              </div>
+              <sc-for list="{{ recent }}" as="c" hint-placeholder-count="3">
+                <div class="fv-row" style="display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid #eef3f9;cursor:pointer" onClick="{{ c.onOpen }}">
+                  <div style="min-width:0;flex:1">
+                    <div style="font-size:13px;font-family:var(--font-heading);font-weight:800">{{ c.id }} · {{ c.entityName }}</div>
+                    <div style="font-size:12px;color:var(--ink-600);margin-top:3px">{{ c.assignLine }}</div>
+                  </div>
+                  <span style="flex:none;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:{{ c.statusBg }};color:{{ c.statusFg }}">{{ c.statusLabel }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="min-width:0;background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+            <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+              <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800">Recent activity</h3>
+            </div>
+            <div style="padding:6px 18px 16px">
+              <sc-for list="{{ activityFeed }}" as="a" hint-placeholder-count="5">
+                <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #f1f5fa">
+                  <div style="width:8px;height:8px;flex:none;border-radius:999px;margin-top:6px;background:{{ a.dot }}"></div>
+                  <div style="min-width:0">
+                    <div style="font-size:13px;font-weight:600">{{ a.text }}</div>
+                    <div style="font-size:11px;color:var(--ink-600);margin-top:2px">{{ a.meta }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isInbox }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in">
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:14px 16px;margin-bottom:16px">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <input class="fv-inp" style="flex:1;min-width:260px" placeholder="Search investigations, entities or Case ID..." value="{{ query }}" onChange="{{ onQuery }}">
+            <button onClick="{{ onToggleFilters }}" style="flex:none;cursor:pointer;border:1px solid {{ filterBtn.border }};background:{{ filterBtn.bg }};color:{{ filterBtn.fg }};font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:11px 16px" style-hover="border-color:#a9cdff">{{ filterBtn.label }}</button>
+          </div>
+
+          <sc-if value="{{ filtersOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;border-top:1px solid var(--color-divider);padding-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px">
+            <div>
+              <div class="fv-lbl">Status</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ statusOptions }}" as="o" hint-placeholder-count="6">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div class="fv-lbl">Risk</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ riskOptions }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div class="fv-lbl">Category</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ categoryOptions }}" as="o" hint-placeholder-count="6">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div class="fv-lbl">Assignment</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ assignOptions }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div class="fv-lbl">L2</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ l2Options }}" as="o" hint-placeholder-count="5">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div class="fv-lbl">Created from</div>
+              <input class="fv-inp" type="date" value="{{ dateFrom }}" onChange="{{ onDateFrom }}">
+              <div class="fv-lbl" style="margin-top:12px">Created to</div>
+              <input class="fv-inp" type="date" value="{{ dateTo }}" onChange="{{ onDateTo }}">
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px;border-top:1px solid var(--color-divider);padding-top:14px">
+            <button onClick="{{ onClearFilters }}" style="cursor:pointer;background:#fff;border:1px solid var(--color-divider);color:var(--color-text);font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:10px 16px" style-hover="background:#eef4fd">Clear filters</button>
+            <button onClick="{{ onApplyFilters }}" style="cursor:pointer;border:0;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:10px 18px" style-hover="background:#3d8bf5">Apply filters</button>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+            <button onClick="{{ t.onClick }}" style="cursor:pointer;display:flex;align-items:center;gap:9px;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.fg }};font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:10px;padding:10px 15px" style-hover="border-color:#a9cdff">
+              <span>{{ t.label }}</span>
+              <span style="font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px;background:{{ t.countBg }};color:{{ t.countFg }}">{{ t.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ results }}" as="c" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:16px 18px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) auto;gap:20px;align-items:start">
+              <div style="min-width:0">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px">
+                  <span style="font-family:var(--font-heading);font-weight:800;font-size:14px">{{ c.id }}</span>
+                  <span style="font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:{{ c.statusBg }};color:{{ c.statusFg }}">{{ c.statusLabel }}</span>
+                  <span style="font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:{{ c.riskBg }};color:{{ c.riskFg }}">Risk: {{ c.riskLabel }}</span>
+                </div>
+                <div style="font-size:16px;font-family:var(--font-heading);font-weight:800">{{ c.entityName }}</div>
+                <div style="font-size:12px;color:var(--ink-600);margin-top:2px">{{ c.entityTypeLabel }} · {{ c.articleCount }} articles · {{ c.storyCount }} stories</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+                  <sc-for list="{{ c.categories }}" as="cat" hint-placeholder-count="2">
+                    <span style="font-size:11px;font-weight:600;border-radius:6px;padding:3px 9px;background:#f1f6fc;border:1px solid #e2ebf6;color:#3c5a7e">{{ cat.name }}</span>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="min-width:0;font-size:12px;color:var(--ink-600);display:flex;flex-direction:column;gap:5px">
+                <div><span style="color:var(--ink-500)">L1 reviewer:</span> <strong style="color:var(--color-text)">{{ c.l1Name }}</strong></div>
+                <div><span style="color:var(--ink-500)">L1 status:</span> {{ c.l1StatusLabel }}</div>
+                <div><span style="color:var(--ink-500)">L2 required:</span> {{ c.l2RequiredLabel }}</div>
+                <div><span style="color:var(--ink-500)">L2 reviewer:</span> <strong style="color:var(--color-text)">{{ c.l2Name }}</strong></div>
+                <div><span style="color:var(--ink-500)">L2 status:</span> {{ c.l2StatusLabel }}</div>
+                <div><span style="color:var(--ink-500)">Updated:</span> {{ c.updatedLabel }}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;align-items:stretch">
+                <button onClick="{{ c.onOpen }}" style="cursor:pointer;border:1px solid {{ c.actBorder }};background:{{ c.actBg }};color:{{ c.actFg }};font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:10px 16px;white-space:nowrap" style-hover="filter:brightness(1.05)">{{ c.actLabel }}</button>
+                <div style="font-size:11px;color:var(--ink-500);max-width:180px;line-height:1.4">{{ c.actNote }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border:1px dashed var(--color-divider);border-radius:12px;padding:40px;text-align:center;font-size:13px;color:var(--ink-600)">No investigations match the current search and filters.</div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isConfig }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;align-items:start">
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+          <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+            <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800">Users &amp; roles</h3>
+            <div style="font-size:12px;color:var(--ink-600);margin-top:3px">Roles are provisioned by the identity provider.</div>
+          </div>
+          <sc-for list="{{ configUsers }}" as="u" hint-placeholder-count="4">
+            <div class="fv-row" style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid #eef3f9">
+              <div style="width:32px;height:32px;flex:none;border-radius:9px;background:#eaf3ff;color:#0e4396;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:11px">{{ u.initials }}</div>
+              <div style="min-width:0;flex:1">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800">{{ u.name }}</div>
+                <div style="font-size:11px;color:var(--ink-600)">{{ u.email }}</div>
+              </div>
+              <span style="flex:none;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f1f6fc;border:1px solid #e2ebf6;color:#3c5a7e">{{ u.roleLabel }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+          <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+            <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800">Risk categories</h3>
+            <div style="font-size:12px;color:var(--ink-600);margin-top:3px">Taxonomy applied to stories and articles.</div>
+          </div>
+          <div style="padding:16px 18px;display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ configCategories }}" as="cat" hint-placeholder-count="6">
+              <span style="font-size:12px;font-weight:600;border-radius:7px;padding:6px 11px;background:#f1f6fc;border:1px solid #e2ebf6;color:#3c5a7e">{{ cat.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+          <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+            <h3 style="margin:0;font-size:15px;font-family:var(--font-heading);font-weight:800">Workflow rules</h3>
+            <div style="font-size:12px;color:var(--ink-600);margin-top:3px">Governs routing between L1, L2 and sign-off.</div>
+          </div>
+          <sc-for list="{{ configRules }}" as="r" hint-placeholder-count="4">
+            <div style="padding:13px 18px;border-bottom:1px solid #eef3f9;display:flex;gap:14px;align-items:center">
+              <div style="min-width:0;flex:1">
+                <div style="font-size:13px;font-weight:700">{{ r.label }}</div>
+                <div style="font-size:12px;color:var(--ink-600);margin-top:2px">{{ r.note }}</div>
+              </div>
+              <span style="flex:none;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:{{ r.bg }};color:{{ r.fg }}">{{ r.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in" style="max-width:940px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:190px;background:{{ s.bg }};border:1px solid {{ s.border }};border-radius:11px;padding:12px 14px">
+              <div style="width:26px;height:26px;flex:none;border-radius:999px;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:12px;background:{{ s.numBg }};color:{{ s.numFg }}">{{ s.num }}</div>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800;color:{{ s.fg }}">{{ s.label }}</div>
+                <div style="font-size:11px;color:var(--ink-600)">{{ s.note }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start">
+          <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:20px">
+            <h3 style="margin:0 0 4px;font-size:15px;font-family:var(--font-heading);font-weight:800">Upload source document</h3>
+            <p style="margin:0 0 16px;font-size:12px;color:var(--ink-600)">PDF only. Nothing leaves this prototype — the file is read locally.</p>
+
+            <sc-if value="{{ noFile }}" hint-placeholder-val="{{ true }}">
+            <div style="border:1.5px dashed #b9cee6;border-radius:12px;background:#f8fbff;padding:34px 20px;text-align:center">
+              <div style="font-family:var(--font-heading);font-weight:800;font-size:15px;margin-bottom:6px">Drag &amp; drop PDF</div>
+              <div style="font-size:12px;color:var(--ink-600);margin-bottom:16px">or select a file from your device</div>
+              <label style="display:inline-block;cursor:pointer;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:13px;border-radius:9px;padding:11px 18px">
+                <span>Browse files</span>
+                <input type="file" accept="application/pdf" style="display:none" onChange="{{ onPickFile }}">
+              </label>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ hasFile }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid var(--color-divider);border-radius:11px;padding:14px;display:flex;align-items:center;gap:13px;background:#f8fbff">
+              <div style="width:38px;height:38px;flex:none;border-radius:9px;background:#0b2545;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800;letter-spacing:.04em">PDF</div>
+              <div style="min-width:0;flex:1">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ fileName }}</div>
+                <div style="font-size:11px;color:var(--ink-600)">{{ fileSize }}</div>
+              </div>
+              <button onClick="{{ onRemoveFile }}" style="flex:none;cursor:pointer;background:#fff;border:1px solid var(--color-divider);color:#8c1d1d;font-size:12px;font-weight:700;border-radius:8px;padding:8px 12px" style-hover="background:#fdecec">Remove</button>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ fileError }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:12px;border-left:3px solid #c62828;background:#fdecec;padding:9px 12px;font-size:12px;color:#8c1d1d;border-radius:0 6px 6px 0">That file is not a PDF. Select a PDF document.</div>
+            </sc-if>
+
+            <div style="height:1px;background:var(--color-divider);margin:22px 0"></div>
+
+            <h3 style="margin:0 0 14px;font-size:15px;font-family:var(--font-heading);font-weight:800">Case details</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+              <div>
+                <label class="fv-lbl">Entity name</label>
+                <input class="fv-inp" placeholder="Registered name of subject" value="{{ entityName }}" onChange="{{ onEntityName }}">
+              </div>
+              <div>
+                <label class="fv-lbl">Entity type</label>
+                <div style="display:flex;gap:8px">
+                  <sc-for list="{{ entityTypeOptions }}" as="o" hint-placeholder-count="2">
+                    <button onClick="{{ o.onPick }}" style="flex:1;cursor:pointer;font-size:13px;font-weight:700;border-radius:9px;padding:10px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <label class="fv-lbl">Client ID (optional)</label>
+                <input class="fv-inp" placeholder="Internal reference" value="{{ clientId }}" onChange="{{ onClientId }}">
+              </div>
+              <div>
+                <label class="fv-lbl">Source</label>
+                <input class="fv-inp" placeholder="Where the document came from" value="{{ source }}" onChange="{{ onSource }}">
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <label class="fv-lbl">Known client details</label>
+              <textarea class="fv-inp" rows="3" style="resize:vertical" placeholder="Anything already held on this client — relationship, prior investigations, known exposures" value="{{ knownClient }}" onChange="{{ onKnownClient }}"></textarea>
+            </div>
+
+            <div style="margin-top:16px">
+              <label class="fv-lbl">Expected categories</label>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ draftCategories }}" as="o" hint-placeholder-count="6">
+                  <button onClick="{{ o.onToggle }}" style="cursor:pointer;font-size:12px;font-weight:700;border-radius:999px;padding:7px 13px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:20px">
+            <h3 style="margin:0 0 14px;font-size:15px;font-family:var(--font-heading);font-weight:800">Review routing</h3>
+            <label style="display:flex;gap:11px;align-items:flex-start;cursor:pointer;border:1px solid {{ l2CheckBorder }};background:{{ l2CheckBg }};border-radius:11px;padding:14px">
+              <input type="checkbox" checked="{{ l2Required }}" onChange="{{ onToggleL2 }}" style="margin-top:2px;width:16px;height:16px;accent-color:#1f6feb">
+              <span style="min-width:0">
+                <span style="display:block;font-size:14px;font-family:var(--font-heading);font-weight:800">L2 review required</span>
+                <span style="display:block;font-size:12px;color:var(--ink-600);margin-top:4px;line-height:1.5">Select this if the investigation requires secondary review after L1 review.</span>
+              </span>
+            </label>
+            <p style="font-size:12px;color:var(--ink-600);line-height:1.55;margin:14px 0 0">Reviewers are not chosen here. The workflow assigns L1 and, where required, L2 from the authenticated reviewer pool.</p>
+
+            <div style="height:1px;background:var(--color-divider);margin:20px 0"></div>
+
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-600);margin-bottom:10px">Ready to proceed</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:18px">
+              <sc-for list="{{ newChecklist }}" as="k" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:{{ k.fg }}">
+                  <span style="width:18px;height:18px;flex:none;border-radius:999px;display:grid;place-items:center;font-size:10px;font-weight:800;background:{{ k.bg }};color:{{ k.tick }}">{{ k.mark }}</span>
+                  <span>{{ k.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <button onClick="{{ onProceed }}" disabled="{{ proceedDisabled }}" style="width:100%;cursor:{{ proceedCursor }};border:0;background:{{ proceedBg }};color:{{ proceedFg }};font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:10px;padding:13px" style-hover="filter:brightness(1.05)">Proceed to processing</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isProcessing }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in" style="max-width:940px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:190px;background:{{ s.bg }};border:1px solid {{ s.border }};border-radius:11px;padding:12px 14px">
+              <div style="width:26px;height:26px;flex:none;border-radius:999px;display:grid;place-items:center;font-family:var(--font-heading);font-weight:800;font-size:12px;background:{{ s.numBg }};color:{{ s.numFg }}">{{ s.num }}</div>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800;color:{{ s.fg }}">{{ s.label }}</div>
+                <div style="font-size:11px;color:var(--ink-600)">{{ s.note }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:24px;margin-bottom:18px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+            <div style="min-width:0;flex:1">
+              <h3 style="margin:0 0 4px;font-size:18px;font-family:var(--font-heading);font-weight:800">{{ procTitle }}</h3>
+              <div style="font-size:13px;color:var(--ink-600)">{{ procSub }}</div>
+            </div>
+            <div style="font-family:var(--font-heading);font-weight:800;font-size:30px;color:{{ procColor }}">{{ progressLabel }}</div>
+          </div>
+          <div style="height:8px;border-radius:999px;background:#eaf1fa;margin-top:18px;overflow:hidden">
+            <div style="height:100%;border-radius:999px;background:{{ procColor }};width:{{ progressWidth }};transition:width .5s var(--ease)"></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:20px">
+          <sc-for list="{{ stages }}" as="st" hint-placeholder-count="7">
+            <div style="background:#fff;border:1px solid {{ st.border }};border-radius:11px;padding:14px;display:flex;gap:11px;align-items:center">
+              <span style="width:22px;height:22px;flex:none;border-radius:999px;display:grid;place-items:center;font-size:11px;font-weight:800;background:{{ st.bg }};color:{{ st.fg }}">{{ st.mark }}</span>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:700">{{ st.label }}</div>
+                <div style="font-size:11px;color:var(--ink-600);margin-top:2px">{{ st.note }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <button onClick="{{ onContinueToReview }}" disabled="{{ continueDisabled }}" style="cursor:{{ continueCursor }};border:0;background:{{ continueBg }};color:{{ continueFg }};font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:10px;padding:13px 22px" style-hover="filter:brightness(1.05)">Continue to review</button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+      <div class="fv-in">
+        <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:18px 20px;margin-bottom:18px">
+          <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+            <div style="min-width:240px;flex:1">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px">
+                <span style="font-family:var(--font-heading);font-weight:800;font-size:15px">{{ rv.id }}</span>
+                <span style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:{{ rv.statusBg }};color:{{ rv.statusFg }}">{{ rv.statusLabel }}</span>
+                <span style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:{{ rv.riskBg }};color:{{ rv.riskFg }}">Risk: {{ rv.riskLabel }}</span>
+              </div>
+              <h2 style="margin:0;font-size:24px;font-family:var(--font-heading);font-weight:800">{{ rv.entityName }}</h2>
+              <div style="font-size:12px;color:var(--ink-600);margin-top:4px">{{ rv.entityTypeLabel }} · {{ rv.articleCount }} articles · {{ rv.storyCount }} stories · Updated {{ rv.updatedLabel }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:11px">
+                <sc-for list="{{ rv.categories }}" as="cat" hint-placeholder-count="3">
+                  <span style="font-size:11px;font-weight:600;border-radius:6px;padding:3px 9px;background:#f1f6fc;border:1px solid #e2ebf6;color:#3c5a7e">{{ cat.name }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="min-width:200px;font-size:12px;color:var(--ink-600);display:flex;flex-direction:column;gap:5px">
+              <div><span style="color:var(--ink-500)">L1 reviewer:</span> <strong style="color:var(--color-text)">{{ rv.l1Name }}</strong> · {{ rv.l1StatusLabel }}</div>
+              <div><span style="color:var(--ink-500)">L2 required:</span> {{ rv.l2RequiredLabel }}</div>
+              <div><span style="color:var(--ink-500)">L2 reviewer:</span> <strong style="color:var(--color-text)">{{ rv.l2Name }}</strong> · {{ rv.l2StatusLabel }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) clamp(290px,28%,352px);gap:20px;align-items:start">
+          <div style="min-width:0;display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:16px 18px">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800;flex:1">Review progress</h3>
+                <span style="font-size:13px;font-weight:700">{{ rv.decidedCount }} / {{ rv.articleCount }} articles reviewed</span>
+              </div>
+              <div style="height:7px;border-radius:999px;background:#eaf1fa;overflow:hidden">
+                <div style="height:100%;border-radius:999px;background:#1f6feb;width:{{ rv.progressWidth }};transition:width .4s var(--ease)"></div>
+              </div>
+            </div>
+
+            <sc-if value="{{ rv.isBucketView }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ rv.buckets }}" as="b" hint-placeholder-count="3">
+              <div style="background:#fff;border:1px solid {{ b.cardBorder }};border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+                <button onClick="{{ b.onToggle }}" style="width:100%;text-align:left;cursor:pointer;background:{{ b.headBg }};border:0;border-bottom:1px solid {{ b.headBorder }};padding:15px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px" style-hover="filter:brightness(.99)">
+                  <span style="width:22px;height:22px;flex:none;border-radius:6px;background:{{ b.caretBg }};color:{{ b.caretFg }};display:grid;place-items:center;font-size:11px;font-weight:800">{{ b.caret }}</span>
+                  <span style="min-width:0;flex:1">
+                    <span style="display:block;font-size:14px;font-family:var(--font-heading);font-weight:800;color:{{ b.titleFg }}">{{ b.title }}</span>
+                    <span style="display:block;font-size:12px;color:var(--ink-600);margin-top:3px">{{ b.note }}</span>
+                  </span>
+                  <span style="flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:4px 12px;background:{{ b.countBg }};color:{{ b.countFg }}">{{ b.count }}</span>
+                </button>
+                <sc-if value="{{ b.open }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <sc-for list="{{ b.articles }}" as="a" hint-placeholder-count="3">
+                    <div style="padding:14px 18px 14px 15px;border-bottom:1px solid #eef3f9;border-left:3px solid {{ a.rowAccent }};background:{{ a.rowBg }};display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;transition:background .3s var(--ease),border-color .3s var(--ease)">
+                      <div style="min-width:220px;flex:1">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:5px">
+                          <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500)">{{ a.storyTitle }}</span>
+                          <sc-if value="{{ a.reviewed }}" hint-placeholder-val="{{ false }}">
+                            <span key="{{ a.reviewedKey }}" class="fv-tick" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;background:#e8f6ee;color:#1a6b42">
+                              <span style="display:inline-grid;place-items:center;width:13px;height:13px;border-radius:999px;background:#1a6b42;color:#fff;font-size:8px">✓</span>
+                              <span>Reviewed</span>
+                            </span>
+                          </sc-if>
+                          <sc-if value="{{ a.notReviewed }}" hint-placeholder-val="{{ true }}">
+                            <span style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px;background:#eef2f7;color:#5b7391">Auto-sorted · unconfirmed</span>
+                          </sc-if>
+                        </div>
+                        <div style="font-size:13px;font-weight:700;line-height:1.45">{{ a.title }}</div>
+                        <div style="font-size:11px;color:var(--ink-600);margin-top:4px">{{ a.source }} · {{ a.date }} · {{ a.category }}</div>
+                        <sc-if value="{{ a.amended }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:inline-block;margin-top:7px;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f3ecfd;color:#5b2ea8">{{ a.amendedNote }}</div>
+                        </sc-if>
+                        <div style="font-size:12px;color:#44607f;margin-top:7px;line-height:1.55;max-width:62ch">{{ a.snippet }}</div>
+                      </div>
+                      <div style="flex:none;display:flex;gap:7px;align-items:center">
+                        <sc-for list="{{ a.choices }}" as="ch" hint-placeholder-count="3">
+                          <button onClick="{{ ch.onPick }}" disabled="{{ ch.disabled }}" style="cursor:{{ ch.cursor }};font-size:12px;font-weight:700;border-radius:8px;padding:8px 12px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};white-space:nowrap" style-hover="filter:brightness(.97)">{{ ch.label }}</button>
+                        </sc-for>
+                      </div>
+                      <div style="flex:1 0 100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:2px">
+                        <sc-if value="{{ a.showReason }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-600)">Reason</span>
+                          <select class="fv-inp" style="min-width:0;width:100%;max-width:340px;padding:7px 10px;font-size:12px;border-color:{{ a.reasonBorder }}" value="{{ a.reason }}" onChange="{{ a.onReason }}">
+                            <sc-for list="{{ a.reasonOptions }}" as="r" hint-placeholder-count="4">
+                              <option value="{{ r.value }}">{{ r.label }}</option>
+                            </sc-for>
+                          </select>
+                          <sc-if value="{{ a.reasonMissing }}" hint-placeholder-val="{{ false }}">
+                            <span style="font-size:11px;font-weight:700;color:#8c1d1d">Reason required to confirm</span>
+                          </sc-if>
+                        </div>
+                        </sc-if>
+                        <sc-if value="{{ a.reasonReadOnly }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;color:var(--ink-600)"><strong style="color:var(--color-text)">Reason:</strong> {{ a.reasonText }}</span>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ b.empty }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:22px 18px;text-align:center;font-size:12px;color:var(--ink-600)">{{ b.emptyNote }}</div>
+                  </sc-if>
+                </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ rv.isL2View }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);padding:16px 18px">
+                <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:14px">
+                  <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800">L1 triage summary</h3>
+                  <span style="font-size:12px;color:var(--ink-600)">As submitted by {{ rv.l1Name }}</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+                  <sc-for list="{{ rv.l2Summary }}" as="sm" hint-placeholder-count="3">
+                    <div style="background:{{ sm.bg }};border:1px solid {{ sm.border }};border-radius:10px;padding:13px 14px">
+                      <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:{{ sm.chipFg }};font-weight:700;margin-bottom:7px">{{ sm.title }}</div>
+                      <div style="font-family:var(--font-heading);font-weight:800;font-size:26px;line-height:1;color:{{ sm.chipFg }}">{{ sm.count }}</div>
+                      <div style="font-size:11px;color:var(--ink-600);margin-top:6px">{{ sm.note }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ rv.hasL1Note }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:14px;border-left:3px solid #1f6feb;background:#f6faff;border-radius:0 8px 8px 0;padding:12px 14px">
+                  <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0e4396;font-weight:700;margin-bottom:5px">Note from L1</div>
+                  <div style="font-size:13px;line-height:1.55;color:#2f4a6d">{{ rv.l1Note }}</div>
+                </div>
+                </sc-if>
+              </div>
+
+              <div style="background:#fff;border:1px solid #cfe0f5;border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+                <div style="padding:15px 18px;border-bottom:1px solid #e6eef8;background:#f6faff;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+                  <div style="min-width:0;flex:1">
+                    <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800;color:#0e4396">Relevant — for secondary review</h3>
+                    <div style="font-size:12px;color:var(--ink-600);margin-top:3px">Highest risk first · amend any L1 decision</div>
+                  </div>
+                  <span style="flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:4px 12px;background:#fdeaea;color:#9b1c1c">{{ rv.l2HighRiskCount }} high / critical</span>
+                </div>
+                <sc-for list="{{ rv.l2Relevant }}" as="a" hint-placeholder-count="4">
+                  <div style="padding:14px 18px 14px 15px;border-bottom:1px solid #eef3f9;border-left:3px solid {{ a.rowAccent }};background:{{ a.rowBg }};display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+                    <div style="min-width:220px;flex:1">
+                      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:5px">
+                        <span style="font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;background:{{ a.riskBg }};color:{{ a.riskFg }}">{{ a.riskLabel }} risk</span>
+                        <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500)">{{ a.storyTitle }}</span>
+                        <sc-if value="{{ a.amended }}" hint-placeholder-val="{{ false }}">
+                          <span class="fv-tick" style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f3ecfd;color:#5b2ea8">{{ a.amendedNote }}</span>
+                        </sc-if>
+                      </div>
+                      <div style="font-size:13px;font-weight:700;line-height:1.45">{{ a.title }}</div>
+                      <div style="font-size:11px;color:var(--ink-600);margin-top:4px">{{ a.source }} · {{ a.date }} · {{ a.category }}</div>
+                      <div style="font-size:12px;color:#44607f;margin-top:7px;line-height:1.55;max-width:62ch">{{ a.snippet }}</div>
+                    </div>
+                    <div style="flex:none;display:flex;gap:7px;align-items:center">
+                      <sc-for list="{{ a.choices }}" as="ch" hint-placeholder-count="3">
+                        <button onClick="{{ ch.onPick }}" style="cursor:{{ ch.cursor }};font-size:12px;font-weight:700;border-radius:8px;padding:8px 12px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};white-space:nowrap" style-hover="filter:brightness(.97)">{{ ch.label }}</button>
+                      </sc-for>
+                    </div>
+                      <div style="flex:1 0 100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:2px">
+                        <sc-if value="{{ a.showReason }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-600)">Reason</span>
+                          <select class="fv-inp" style="min-width:0;width:100%;max-width:340px;padding:7px 10px;font-size:12px;border-color:{{ a.reasonBorder }}" value="{{ a.reason }}" onChange="{{ a.onReason }}">
+                            <sc-for list="{{ a.reasonOptions }}" as="r" hint-placeholder-count="4">
+                              <option value="{{ r.value }}">{{ r.label }}</option>
+                            </sc-for>
+                          </select>
+                          <sc-if value="{{ a.reasonMissing }}" hint-placeholder-val="{{ false }}">
+                            <span style="font-size:11px;font-weight:700;color:#8c1d1d">Reason required to confirm</span>
+                          </sc-if>
+                        </div>
+                        </sc-if>
+                        <sc-if value="{{ a.reasonReadOnly }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;color:var(--ink-600)"><strong style="color:var(--color-text)">Reason:</strong> {{ a.reasonText }}</span>
+                        </sc-if>
+                      </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ rv.l2RelevantEmpty }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:26px 18px;text-align:center;font-size:12px;color:var(--ink-600)">L1 retained no articles as relevant.</div>
+                </sc-if>
+              </div>
+
+              <div style="background:#fff;border:1px solid #f0e0c6;border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+                <div style="padding:15px 18px;border-bottom:1px solid #f3e7d3;background:#fffaf2;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+                  <div style="min-width:0;flex:1">
+                    <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800;color:#8a5300">Manual review — L1 could not settle</h3>
+                    <div style="font-size:12px;color:var(--ink-600);margin-top:3px">Resolve each into relevant or not relevant</div>
+                  </div>
+                  <span style="flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:4px 12px;background:#fff4e2;color:#8a5300">{{ rv.l2ManualCount }}</span>
+                </div>
+                <sc-for list="{{ rv.l2Manual }}" as="a" hint-placeholder-count="2">
+                  <div style="padding:14px 18px 14px 15px;border-bottom:1px solid #eef3f9;border-left:3px solid {{ a.rowAccent }};background:{{ a.rowBg }};display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+                    <div style="min-width:220px;flex:1">
+                      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:5px">
+                        <span style="font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;background:{{ a.riskBg }};color:{{ a.riskFg }}">{{ a.riskLabel }} risk</span>
+                        <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500)">{{ a.storyTitle }}</span>
+                        <sc-if value="{{ a.amended }}" hint-placeholder-val="{{ false }}">
+                          <span class="fv-tick" style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f3ecfd;color:#5b2ea8">{{ a.amendedNote }}</span>
+                        </sc-if>
+                      </div>
+                      <div style="font-size:13px;font-weight:700;line-height:1.45">{{ a.title }}</div>
+                      <div style="font-size:11px;color:var(--ink-600);margin-top:4px">{{ a.source }} · {{ a.date }} · {{ a.category }}</div>
+                      <div style="font-size:12px;color:#44607f;margin-top:7px;line-height:1.55;max-width:62ch">{{ a.snippet }}</div>
+                    </div>
+                    <div style="flex:none;display:flex;gap:7px;align-items:center">
+                      <sc-for list="{{ a.choices }}" as="ch" hint-placeholder-count="3">
+                        <button onClick="{{ ch.onPick }}" style="cursor:{{ ch.cursor }};font-size:12px;font-weight:700;border-radius:8px;padding:8px 12px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};white-space:nowrap" style-hover="filter:brightness(.97)">{{ ch.label }}</button>
+                      </sc-for>
+                    </div>
+                      <div style="flex:1 0 100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:2px">
+                        <sc-if value="{{ a.showReason }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-600)">Reason</span>
+                          <select class="fv-inp" style="min-width:0;width:100%;max-width:340px;padding:7px 10px;font-size:12px;border-color:{{ a.reasonBorder }}" value="{{ a.reason }}" onChange="{{ a.onReason }}">
+                            <sc-for list="{{ a.reasonOptions }}" as="r" hint-placeholder-count="4">
+                              <option value="{{ r.value }}">{{ r.label }}</option>
+                            </sc-for>
+                          </select>
+                          <sc-if value="{{ a.reasonMissing }}" hint-placeholder-val="{{ false }}">
+                            <span style="font-size:11px;font-weight:700;color:#8c1d1d">Reason required to confirm</span>
+                          </sc-if>
+                        </div>
+                        </sc-if>
+                        <sc-if value="{{ a.reasonReadOnly }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;color:var(--ink-600)"><strong style="color:var(--color-text)">Reason:</strong> {{ a.reasonText }}</span>
+                        </sc-if>
+                      </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ rv.l2ManualEmpty }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:26px 18px;text-align:center;font-size:12px;color:var(--ink-600)">Nothing was left for manual review.</div>
+                </sc-if>
+              </div>
+
+              <div style="background:#fff;border:1px solid #dbe6df;border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+                <button onClick="{{ rv.onToggleNotRel }}" style="width:100%;text-align:left;cursor:pointer;background:#f8faf9;border:0;padding:15px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px" style-hover="filter:brightness(.99)">
+                  <span style="width:22px;height:22px;flex:none;border-radius:6px;background:#eef7f1;color:#2b6b47;display:grid;place-items:center;font-size:11px;font-weight:800">{{ rv.l2NotRelCaret }}</span>
+                  <span style="min-width:0;flex:1">
+                    <span style="display:block;font-size:14px;font-family:var(--font-heading);font-weight:800;color:#2b6b47">Not relevant — discounted by L1</span>
+                    <span style="display:block;font-size:12px;color:var(--ink-600);margin-top:3px">Open to check what was excluded</span>
+                  </span>
+                  <span style="flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:4px 12px;background:#eef7f1;color:#2b6b47">{{ rv.l2NotRelevantCount }}</span>
+                </button>
+                <sc-if value="{{ rv.l2NotRelOpen }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <sc-for list="{{ rv.l2NotRelevant }}" as="a" hint-placeholder-count="3">
+                    <div style="padding:13px 18px 13px 15px;border-top:1px solid #eef3f9;border-left:3px solid {{ a.rowAccent }};display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+                      <div style="min-width:220px;flex:1">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:5px">
+                          <span style="font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;background:{{ a.riskBg }};color:{{ a.riskFg }}">{{ a.riskLabel }} risk</span>
+                          <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-500)">{{ a.storyTitle }}</span>
+                          <sc-if value="{{ a.amended }}" hint-placeholder-val="{{ false }}">
+                            <span class="fv-tick" style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f3ecfd;color:#5b2ea8">{{ a.amendedNote }}</span>
+                          </sc-if>
+                        </div>
+                        <div style="font-size:13px;font-weight:600;line-height:1.45">{{ a.title }}</div>
+                        <div style="font-size:11px;color:var(--ink-600);margin-top:4px">{{ a.source }} · {{ a.date }} · {{ a.category }}</div>
+                      </div>
+                      <div style="flex:none;display:flex;gap:7px;align-items:center">
+                        <sc-for list="{{ a.choices }}" as="ch" hint-placeholder-count="3">
+                          <button onClick="{{ ch.onPick }}" style="cursor:{{ ch.cursor }};font-size:12px;font-weight:700;border-radius:8px;padding:7px 11px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};white-space:nowrap" style-hover="filter:brightness(.97)">{{ ch.label }}</button>
+                        </sc-for>
+                      </div>
+                      <div style="flex:1 0 100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:2px">
+                        <sc-if value="{{ a.showReason }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-600)">Reason</span>
+                          <select class="fv-inp" style="min-width:0;width:100%;max-width:340px;padding:7px 10px;font-size:12px;border-color:{{ a.reasonBorder }}" value="{{ a.reason }}" onChange="{{ a.onReason }}">
+                            <sc-for list="{{ a.reasonOptions }}" as="r" hint-placeholder-count="4">
+                              <option value="{{ r.value }}">{{ r.label }}</option>
+                            </sc-for>
+                          </select>
+                          <sc-if value="{{ a.reasonMissing }}" hint-placeholder-val="{{ false }}">
+                            <span style="font-size:11px;font-weight:700;color:#8c1d1d">Reason required to confirm</span>
+                          </sc-if>
+                        </div>
+                        </sc-if>
+                        <sc-if value="{{ a.reasonReadOnly }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;color:var(--ink-600)"><strong style="color:var(--color-text)">Reason:</strong> {{ a.reasonText }}</span>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                </sc-if>
+              </div>
+            </div>
+            </sc-if>
+
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+              <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+                <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800">Previous decisions</h3>
+              </div>
+              <sc-if value="{{ rv.hasDecisions }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <sc-for list="{{ rv.decisions }}" as="d" hint-placeholder-count="2">
+                  <div style="padding:14px 18px;border-bottom:1px solid #eef3f9">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:5px">
+                      <span style="font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;background:{{ d.bg }};color:{{ d.fg }}">{{ d.decision }}</span>
+                      <span style="font-size:12px;font-weight:700">{{ d.stage }}</span>
+                      <span style="font-size:12px;color:var(--ink-600)">{{ d.reviewer }} · {{ d.date }}</span>
+                    </div>
+                    <div style="font-size:12px;color:var(--ink-600)"><strong style="color:var(--color-text)">Reason:</strong> {{ d.reason }}</div>
+                    <div style="font-size:12px;color:var(--ink-600);margin-top:3px"><strong style="color:var(--color-text)">Comment:</strong> {{ d.comment }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ rv.noDecisions }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:26px 18px;text-align:center;font-size:13px;color:var(--ink-600)">No decisions recorded on this investigation yet.</div>
+              </sc-if>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-sm);overflow:hidden">
+              <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+                <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800">Activity</h3>
+              </div>
+              <div style="padding:6px 18px 14px">
+                <sc-for list="{{ rv.activity }}" as="a" hint-placeholder-count="3">
+                  <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #f1f5fa">
+                    <div style="width:8px;height:8px;flex:none;border-radius:999px;margin-top:6px;background:{{ a.dot }}"></div>
+                    <div style="min-width:0">
+                      <div style="font-size:13px;font-weight:600">{{ a.text }}</div>
+                      <div style="font-size:11px;color:var(--ink-600);margin-top:2px">{{ a.meta }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div class="fv-scroll" style="position:sticky;top:20px;align-self:start;max-height:calc(100vh - 120px);overflow:auto;background:#fff;border:1px solid var(--color-divider);border-radius:12px;box-shadow:var(--shadow-md)">
+            <div style="padding:15px 18px;border-bottom:1px solid var(--color-divider)">
+              <h3 style="margin:0;font-size:14px;font-family:var(--font-heading);font-weight:800">{{ sub.title }}</h3>
+              <div style="font-size:12px;color:var(--ink-600);margin-top:3px">{{ sub.stageNote }}</div>
+            </div>
+
+            <div style="padding:16px 18px">
+              <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:16px">
+                <sc-for list="{{ sub.checklist }}" as="k" hint-placeholder-count="3">
+                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:{{ k.fg }}">
+                    <span style="width:18px;height:18px;flex:none;border-radius:999px;display:grid;place-items:center;font-size:10px;font-weight:800;background:{{ k.bg }};color:{{ k.tick }}">{{ k.mark }}</span>
+                    <span style="min-width:0;line-height:1.45">{{ k.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{ sub.canAct }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <sc-if value="{{ sub.showDecision }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <label class="fv-lbl">Decision</label>
+                  <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+                    <sc-for list="{{ sub.decisionOptions }}" as="o" hint-placeholder-count="3">
+                      <button onClick="{{ o.onPick }}" style="text-align:left;cursor:pointer;font-size:13px;font-weight:700;border-radius:9px;padding:10px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                </sc-if>
+
+                <sc-if value="{{ sub.showReason }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <label class="fv-lbl">{{ sub.reasonLabel }}</label>
+                  <select class="fv-inp" style="margin-bottom:14px" value="{{ sub.reason }}" onChange="{{ sub.onReason }}">
+                    <sc-for list="{{ sub.reasonOptions }}" as="r" hint-placeholder-count="4">
+                      <option value="{{ r.value }}">{{ r.label }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+                </sc-if>
+
+                <label class="fv-lbl">{{ sub.commentLabel }}</label>
+                <textarea class="fv-inp" rows="4" style="resize:vertical;margin-bottom:14px" placeholder="{{ sub.commentPlaceholder }}" value="{{ sub.comment }}" onChange="{{ sub.onComment }}"></textarea>
+
+                <sc-if value="{{ sub.error }}" hint-placeholder-val="{{ false }}">
+                  <div style="border-left:3px solid #c62828;background:#fdecec;padding:9px 12px;font-size:12px;color:#8c1d1d;border-radius:0 6px 6px 0;margin-bottom:12px">{{ sub.errorText }}</div>
+                </sc-if>
+
+                <button onClick="{{ sub.onSubmit }}" style="width:100%;cursor:pointer;border:0;background:var(--color-accent);color:#fff;font-family:var(--font-heading);font-weight:800;font-size:14px;border-radius:10px;padding:13px;box-shadow:0 3px 12px rgba(31,111,235,.3)" style-hover="background:#3d8bf5">{{ sub.submitLabel }}</button>
+              </div>
+              </sc-if>
+
+              <sc-if value="{{ sub.readOnly }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #e3ebf5;background:#f7fafd;border-radius:10px;padding:14px">
+                <div style="font-size:13px;font-family:var(--font-heading);font-weight:800;margin-bottom:5px">{{ sub.readOnlyTitle }}</div>
+                <div style="font-size:12px;color:var(--ink-600);line-height:1.55">{{ sub.readOnlyNote }}</div>
+              </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDemoIdentities&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;}}">
+const ROLE_LABEL = { ADMINISTRATOR:'Administrator', L1_REVIEWER:'L1 Reviewer', L2_REVIEWER:'L2 Reviewer' };
+
+const USERS = [
+  { id:'USR-001', name:'Joel Mensah', email:'joel.mensah@finovrr.com', role:'L1_REVIEWER' },
+  { id:'USR-002', name:'Priya Raghunathan', email:'priya.raghunathan@finovrr.com', role:'L2_REVIEWER' },
+  { id:'USR-003', name:'Amara Whitfield', email:'amara.whitfield@finovrr.com', role:'ADMINISTRATOR' },
+  { id:'USR-004', name:'Daniel Osei', email:'daniel.osei@finovrr.com', role:'L1_REVIEWER' },
+  { id:'USR-005', name:'Naomi Stern', email:'naomi.stern@finovrr.com', role:'L2_REVIEWER' }
+];
+const LOGIN_IDS = ['USR-001','USR-002','USR-003'];
+
+const CATEGORIES = ['Financial Crime','Fraud','Sanctions','Regulatory','Corruption','Corporate Misconduct'];
+
+const STATUS = {
+  NEW:              { label:'New',               bg:'#eef2f7', fg:'#3c5a7e' },
+  PROCESSING:       { label:'Processing',         bg:'#e8f4fd', fg:'#0e729b' },
+  L1_REVIEW:        { label:'L1 Review',          bg:'#eaf3ff', fg:'#0e4396' },
+  L2_REVIEW:        { label:'L2 Review',          bg:'#f3ecfd', fg:'#5b2ea8' },
+  AWAITING_SIGN_OFF:{ label:'Awaiting Sign Off',  bg:'#fff4e2', fg:'#8a5300' },
+  COMPLETED:        { label:'Completed',          bg:'#e8f6ee', fg:'#1a6b42' }
+};
+const RISK = {
+  Critical:{ bg:'#fdeaea', fg:'#9b1c1c' },
+  High:    { bg:'#fff1e6', fg:'#9a4a06' },
+  Medium:  { bg:'#fff8e1', fg:'#835c00' },
+  Low:     { bg:'#eef7f1', fg:'#2b6b47' }
+};
+const REVIEW_STATE = { NOT_STARTED:'Not started', IN_PROGRESS:'In progress', COMPLETED:'Completed', PENDING:'Pending', NOT_REQUIRED:'Not required' };
+
+const STORY_SEEDS = [
+  { title:'Regulatory penalty over transaction-monitoring failures', category:'Regulatory', risk:'High',
+    articles:[
+      { t:'Regulator fines {E} over monitoring control gaps', s:'Financial Times', d:'12 Aug 2026', x:'Supervisor cites incomplete alert coverage across correspondent flows and a remediation plan running behind schedule.' },
+      { t:'{E} accepts findings, commits to remediation programme', s:'Reuters', d:'13 Aug 2026', x:'Statement confirms the penalty and sets out an 18-month control uplift with independent assurance.' },
+      { t:'Analysts weigh capital impact of {E} penalty', s:'Bloomberg', d:'15 Aug 2026', x:'Commentary on provisioning; no allegation of new misconduct beyond the published findings.' }
+    ] },
+  { title:'Allegations of invoice fraud in supplier network', category:'Fraud', risk:'Critical',
+    articles:[
+      { t:'Supplier invoices at {E} under internal investigation', s:'Investigative Desk', d:'02 Jul 2026', x:'Reporting describes duplicate invoices routed through two intermediaries over a four-year period.' },
+      { t:'Two managers suspended pending {E} review', s:'City Wire', d:'05 Jul 2026', x:'Company confirms suspensions and says external counsel has been engaged.' },
+      { t:'{E} says financial impact is not material', s:'Company Statement', d:'09 Jul 2026', x:'Disclosure quantifies exposure and states that controls have been strengthened.' }
+    ] },
+  { title:'Sanctions exposure via indirect ownership chain', category:'Sanctions', risk:'High',
+    articles:[
+      { t:'Ownership chain links {E} subsidiary to restricted party', s:'Compliance Week', d:'21 Jun 2026', x:'Analysis of registry filings identifies a minority holder below the control threshold.' },
+      { t:'{E} confirms divestment of minority stake', s:'Reuters', d:'28 Jun 2026', x:'Company reports completion of a sale and screening of remaining counterparties.' }
+    ] },
+  { title:'Corruption claims in public procurement tender', category:'Corruption', risk:'Medium',
+    articles:[
+      { t:'Tender award to {E} questioned by audit office', s:'National Audit Review', d:'14 May 2026', x:'Audit finds procedural irregularities in scoring; no finding of payment to officials.' },
+      { t:'Prosecutors decline to open case involving {E}', s:'Local Press', d:'30 May 2026', x:'Statement notes insufficient evidence to proceed; audit recommendations remain open.' }
+    ] }
+];
+
+function initials(name) { return String(name).split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase(); }
+function userById(id) { const u = USERS.find(x => x.id === id); return u || null; }
+function nameOf(id) { const u = userById(id); return u ? u.name : 'Unassigned'; }
+
+function storiesFor(id, entityName) {
+  const n = 2 + (id.charCodeAt(id.length - 1) % 3); // 2-4 stories
+  return STORY_SEEDS.slice(0, n).map((s, i) => ({
+    key: id + '-S' + (i + 1),
+    title: s.title,
+    category: s.category,
+    risk: s.risk,
+    articles: s.articles.map((a, j) => ({
+      key: id + '-S' + (i + 1) + '-A' + (j + 1),
+      title: a.t.split('{E}').join(entityName),
+      source: a.s, date: a.d, snippet: a.x
+    }))
+  }));
+}
+
+function mkCase(o) {
+  const stories = storiesFor(o.id, o.entityName);
+  const articleCount = stories.reduce((n, s) => n + s.articles.length, 0);
+  return Object.assign({
+    entityType:'ORGANISATION', categories:[], assignedL1Reviewer:null, assignedL2Reviewer:null,
+    l2ReviewRequired:false, l1ReviewStatus:'NOT_STARTED', l2ReviewStatus:'NOT_REQUIRED',
+    createdAt:'2026-09-10', updatedAt:'2026-09-15', decisions:[]
+  }, o, { stories: stories, storyCount: stories.length, articleCount: articleCount });
+}
+
+const SEED_CASES = [
+  mkCase({ id:'CASE-00118', entityName:'Halston Pacific Holdings', riskLevel:'High', status:'AWAITING_SIGN_OFF',
+    categories:['Financial Crime','Regulatory'], assignedL1Reviewer:'USR-001', l2ReviewRequired:false,
+    l1ReviewStatus:'COMPLETED', l2ReviewStatus:'NOT_REQUIRED', createdAt:'2026-09-08', updatedAt:'2026-09-15',
+    decisions:[{ stage:'L1 Review', decision:'Confirm risk', reason:'Adverse media substantiated', comment:'Regulatory penalty confirmed by primary sources. No secondary review required under policy.', reviewer:'Joel Mensah', date:'15 Sep 2026 14:02' }] }),
+  mkCase({ id:'CASE-00121', entityName:'Meridian Trust Bank', riskLevel:'Critical', status:'L2_REVIEW',
+    categories:['Financial Crime','Fraud','Sanctions'], assignedL1Reviewer:'USR-001', assignedL2Reviewer:'USR-002',
+    l2ReviewRequired:true, l1ReviewStatus:'COMPLETED', l2ReviewStatus:'PENDING', createdAt:'2026-09-07', updatedAt:'2026-09-15',
+    decisions:[{ stage:'L1 Review', decision:'Escalate', reason:'Critical risk indicators', comment:'Sanctions exposure requires secondary review before outcome.', reviewer:'Joel Mensah', date:'15 Sep 2026 11:20' }] }),
+  mkCase({ id:'CASE-00124', entityName:'Northbank Group PLC', riskLevel:'High', status:'L1_REVIEW',
+    categories:['Financial Crime','Regulatory','Fraud'], assignedL1Reviewer:'USR-001', assignedL2Reviewer:'USR-002',
+    l2ReviewRequired:true, l1ReviewStatus:'IN_PROGRESS', l2ReviewStatus:'NOT_STARTED', createdAt:'2026-09-12', updatedAt:'2026-09-15' }),
+  mkCase({ id:'CASE-00127', entityName:'Elena Marchetti', entityType:'PERSON', riskLevel:'Medium', status:'L1_REVIEW',
+    categories:['Corruption'], assignedL1Reviewer:'USR-001', l2ReviewRequired:false,
+    l1ReviewStatus:'NOT_STARTED', l2ReviewStatus:'NOT_REQUIRED', createdAt:'2026-09-13', updatedAt:'2026-09-14' }),
+  mkCase({ id:'CASE-00129', entityName:'Corvallis Metals Group', riskLevel:'Medium', status:'PROCESSING',
+    categories:['Corporate Misconduct'], l2ReviewRequired:false, createdAt:'2026-09-15', updatedAt:'2026-09-15' }),
+  mkCase({ id:'CASE-00131', entityName:'Sable Ridge Capital', riskLevel:'High', status:'L2_REVIEW',
+    categories:['Fraud','Regulatory'], assignedL1Reviewer:'USR-004', assignedL2Reviewer:'USR-002',
+    l2ReviewRequired:true, l1ReviewStatus:'COMPLETED', l2ReviewStatus:'PENDING', createdAt:'2026-09-06', updatedAt:'2026-09-14',
+    decisions:[{ stage:'L1 Review', decision:'Escalate', reason:'Conflicting source reliability', comment:'Two stories need a second opinion on materiality.', reviewer:'Daniel Osei', date:'14 Sep 2026 16:40' }] }),
+  mkCase({ id:'CASE-00133', entityName:'Tobias Renner', entityType:'PERSON', riskLevel:'Low', status:'COMPLETED',
+    categories:['Regulatory'], assignedL1Reviewer:'USR-001', l2ReviewRequired:false,
+    l1ReviewStatus:'COMPLETED', l2ReviewStatus:'NOT_REQUIRED', createdAt:'2026-09-02', updatedAt:'2026-09-11',
+    decisions:[{ stage:'L1 Review', decision:'Close — no action', reason:'False positive', comment:'Name match only; subject is a different individual.', reviewer:'Joel Mensah', date:'11 Sep 2026 09:15' }] }),
+  mkCase({ id:'CASE-00135', entityName:'Avenir Logistique SA', riskLevel:'Medium', status:'NEW',
+    categories:['Corporate Misconduct','Fraud'], l2ReviewRequired:true, l2ReviewStatus:'NOT_STARTED',
+    createdAt:'2026-09-15', updatedAt:'2026-09-15' }),
+  mkCase({ id:'CASE-00136', entityName:'Kestrel Mining Ltd', riskLevel:'Critical', status:'L1_REVIEW',
+    categories:['Corruption','Sanctions'], assignedL1Reviewer:'USR-004', assignedL2Reviewer:'USR-005',
+    l2ReviewRequired:true, l1ReviewStatus:'IN_PROGRESS', l2ReviewStatus:'NOT_STARTED', createdAt:'2026-09-11', updatedAt:'2026-09-14' }),
+  mkCase({ id:'CASE-00138', entityName:'Ivar Lindqvist', entityType:'PERSON', riskLevel:'Medium', status:'L2_REVIEW',
+    categories:['Financial Crime'], assignedL1Reviewer:'USR-004', assignedL2Reviewer:'USR-005',
+    l2ReviewRequired:true, l1ReviewStatus:'COMPLETED', l2ReviewStatus:'PENDING', createdAt:'2026-09-05', updatedAt:'2026-09-13' })
+];
+
+const L1_SPREAD = ['RELEVANT','RELEVANT','NOT_RELEVANT','RELEVANT','NOT_RELEVANT','RELEVANT','NOT_RELEVANT','RELEVANT','RELEVANT','NOT_RELEVANT','RELEVANT','NOT_RELEVANT'];
+
+function seedL1Buckets(cases) {
+  const map = {};
+  cases.forEach(c => {
+    if (c.l1ReviewStatus !== 'COMPLETED') return;
+    const local = {};
+    let i = 0;
+    c.stories.forEach(st => st.articles.forEach(a => {
+      const v = L1_SPREAD[i % L1_SPREAD.length];
+      i++; local[a.key] = v; map[a.key] = v;
+    }));
+    c.l1Buckets = local;
+  });
+  return map;
+}
+
+const SEED_ACTIVITY = [
+  { text:'L1 review completed', meta:'Joel Mensah · CASE-00118', date:'15 Sep 2026 14:02', kind:'l1', caseId:'CASE-00118' },
+  { text:'32 articles reviewed', meta:'Joel Mensah · CASE-00124', date:'15 Sep 2026 13:48', kind:'info', caseId:'CASE-00124' },
+  { text:'Investigation opened', meta:'Joel Mensah · CASE-00124', date:'15 Sep 2026 13:31', kind:'info', caseId:'CASE-00124' },
+  { text:'L1 review completed · escalated to L2', meta:'Joel Mensah · CASE-00121', date:'15 Sep 2026 11:20', kind:'l1', caseId:'CASE-00121' },
+  { text:'Processing completed', meta:'System · CASE-00129', date:'15 Sep 2026 09:05', kind:'info', caseId:'CASE-00129' },
+  { text:'L1 review completed · escalated to L2', meta:'Daniel Osei · CASE-00131', date:'14 Sep 2026 16:40', kind:'l1', caseId:'CASE-00131' }
+];
+
+const AUTO_SPREAD = ['RELEVANT','MANUAL_REVIEW','NOT_RELEVANT','RELEVANT','RELEVANT','NOT_RELEVANT','MANUAL_REVIEW','RELEVANT','NOT_RELEVANT','RELEVANT','MANUAL_REVIEW','RELEVANT'];
+
+function autoBuckets(cases) {
+  const map = {};
+  cases.forEach(c => {
+    let i = 0;
+    c.stories.forEach(st => st.articles.forEach(a => { map[a.key] = AUTO_SPREAD[i % AUTO_SPREAD.length]; i++; }));
+  });
+  return map;
+}
+
+function seedConfirmed(cases) {
+  const map = {};
+  cases.forEach(c => {
+    if (c.l1ReviewStatus !== 'COMPLETED') return;
+    c.stories.forEach(st => st.articles.forEach(a => { map[a.key] = true; }));
+  });
+  return map;
+}
+
+const SEED_L1 = seedL1Buckets(SEED_CASES);
+const SEED_AUTO = Object.assign(autoBuckets(SEED_CASES), SEED_L1);
+const SEED_CONFIRMED = seedConfirmed(SEED_CASES);
+
+const PROC_STAGES = [
+  { label:'File received', note:'Document accepted' },
+  { label:'Document validation', note:'Structure and encoding' },
+  { label:'Text extraction', note:'Page-level OCR pass' },
+  { label:'Article identification', note:'Segmenting source items' },
+  { label:'Story grouping', note:'Clustering related articles' },
+  { label:'Risk / category preparation', note:'Taxonomy assignment' },
+  { label:'Review preparation', note:'Building reviewer workspace' }
+];
+
+const BUCKETS = [
+  { key:'RELEVANT', title:'Relevant', short:'Relevant', note:'Auto-sorted here · confirm or move each article',
+    emptyNote:'No articles marked relevant.', tint:'#f6faff', border:'#cfe0f5', chipBg:'#eaf3ff', chipFg:'#0e4396', solid:'#1f6feb' },
+  { key:'MANUAL_REVIEW', title:'Manual review', short:'Manual review', note:'Must be emptied — resolve each into relevant or not relevant before submitting',
+    emptyNote:'Nothing held for manual review.', tint:'#fffaf2', border:'#f0e0c6', chipBg:'#fff4e2', chipFg:'#8a5300', solid:'#b46c00' },
+  { key:'NOT_RELEVANT', title:'Not relevant', short:'Not relevant', note:'Discounted — false positives and non-material coverage',
+    emptyNote:'No articles discounted.', tint:'#f8faf9', border:'#dbe6df', chipBg:'#eef7f1', chipFg:'#2b6b47', solid:'#2b6b47' }
+];
+
+const ARTICLE_REASONS = {
+  RELEVANT: ['Direct involvement of the subject','Regulatory or enforcement action','Credible primary source','Material to the risk rating'],
+  NOT_RELEVANT: ['Different individual or entity','No adverse content','Duplicate of retained coverage','Immaterial to the risk rating'],
+  MANUAL_REVIEW: ['Conflicting sources','Subject identity unconfirmed','Materiality unclear','Awaiting corroboration']
+};
+
+function seedArticleReasons(map) {
+  const out = {};
+  Object.keys(map).forEach(k => { const list = ARTICLE_REASONS[map[k]]; if (list) out[k] = list[0]; });
+  return out;
+}
+
+const REASONS_L1 = ['Adverse media substantiated','Partially substantiated','Source reliability concerns','False positive — name match only','Insufficient information'];
+const REASONS_L2 = ['Concur with L1 assessment','Risk rating adjusted','Additional sources required','Overturned — insufficient evidence'];
+const REASONS_BY_DECISION = {
+  'Confirm risk': ['Risk rating confirmed at current level','Risk rating increased on retained coverage','Risk rating reduced but exposure remains','Sustained adverse media across multiple sources','Enforcement or regulatory action substantiated'],
+  'Close — no action': ['No adverse media substantiated','All coverage discounted as false positive','Coverage immaterial to the relationship','Matter historic and resolved','Subject identity not confirmed']
+};
+
+class Component extends DCLogic {
+  state = {
+    route:'login',
+    user:null,
+    loginEmail:'', loginPassword:'', loginStep:'id', showPassword:false, loginError:false, passwordError:false, pendingIdent:null,
+    cases: SEED_CASES.map(c => Object.assign({}, c)),
+    activity: SEED_ACTIVITY.slice(),
+    decisionsByArticle: Object.assign({}, SEED_AUTO),
+    confirmed: Object.assign({}, SEED_CONFIRMED),
+    articleReason: seedArticleReasons(SEED_L1),
+    selectedId: null,
+    tab:'me', query:'', filtersOpen:false,
+    filters: { status:[], risk:[], category:[], assignment:'any', l2:'any', dateFrom:'', dateTo:'' },
+    pending: { status:[], risk:[], category:[], assignment:'any', l2:'any', dateFrom:'', dateTo:'' },
+    draft: { file:null, fileError:false, entityName:'', entityType:'ORGANISATION', clientId:'', source:'', knownClient:'', categories:[], l2Required:false },
+    progress:0, procCaseId:null,
+    openStories:{},
+    subDecision:'', subReason:'', subComment:'', subError:'',
+    denied:''
+  };
+
+  componentWillUnmount() { clearInterval(this._timer); }
+
+  // ---------- identity ----------
+  lookupId(email) { return USERS.filter(u => LOGIN_IDS.indexOf(u.id) >= 0).find(u => u.email.toLowerCase() === String(email).trim().toLowerCase()); }
+
+  checkId(email) {
+    const u = this.lookupId(email);
+    if (!u) { this.setState({ loginError:true }); return; }
+    this.setState({ loginEmail:u.email, loginError:false, pendingIdent:u, loginStep:'password', loginPassword:'', passwordError:false });
+  }
+
+  signIn() {
+    const u = this.lookupId(this.state.loginEmail);
+    if (!u) { this.setState({ loginStep:'id', loginError:true }); return; }
+    if (!String(this.state.loginPassword).trim()) { this.setState({ passwordError:true }); return; }
+    this.setState({ user:u, route:'dashboard', loginStep:'id', loginPassword:'', pendingIdent:null, tab:'me', denied:'' });
+  }
+
+  logout() {
+    clearInterval(this._timer);
+    this.setState({ route:'login', user:null, loginEmail:'', loginPassword:'', loginStep:'id', pendingIdent:null, loginError:false, passwordError:false, selectedId:null, denied:'', progress:0 });
+  }
+
+  // ---------- permissions ----------
+  role() { return this.state.user ? this.state.user.role : null; }
+  isAdmin() { return this.role() === 'ADMINISTRATOR'; }
+  isL1() { return this.role() === 'L1_REVIEWER'; }
+  isL2() { return this.role() === 'L2_REVIEWER'; }
+  canCreate() { return this.isL1(); }
+
+  canActL1(c) { return !!c && this.isL1() && c.assignedL1Reviewer === this.state.user.id && c.status === 'L1_REVIEW'; }
+  canActL2(c) { return !!c && this.isL2() && c.assignedL2Reviewer === this.state.user.id && c.status === 'L2_REVIEW' && c.l2ReviewRequired; }
+  canSignOff(c) { return !!c && this.isAdmin() && c.status === 'AWAITING_SIGN_OFF'; }
+
+  myQueueCases() {
+    const s = this.state, me = s.user ? s.user.id : null;
+    if (this.isL1()) return s.cases.filter(c => c.assignedL1Reviewer === me && (c.status === 'L1_REVIEW' || c.status === 'AWAITING_SIGN_OFF' && false));
+    if (this.isL2()) return s.cases.filter(c => c.assignedL2Reviewer === me && c.status === 'L2_REVIEW' && c.l2ReviewRequired);
+    if (this.isAdmin()) return s.cases.filter(c => c.status === 'AWAITING_SIGN_OFF');
+    return [];
+  }
+
+  assignedToMe(c) {
+    const me = this.state.user ? this.state.user.id : null;
+    if (this.isL1()) return c.assignedL1Reviewer === me;
+    if (this.isL2()) return c.assignedL2Reviewer === me;
+    return false;
+  }
+
+  go(route) {
+    if (route === 'config' && !this.isAdmin()) { this.setState({ route:'denied', denied:'You don\u2019t have permission to open Config. Configuration is restricted to administrators.' }); return; }
+    if (route === 'new' && !this.canCreate()) { this.setState({ route:'denied', denied:'You don\u2019t have permission to create investigations. Only L1 reviewers open new investigations.' }); return; }
+    this.setState({ route: route, denied:'' });
+  }
+
+  openCase(id) {
+    const c = this.state.cases.find(x => x.id === id);
+    if (c && this.isL1() && (c.status === 'L2_REVIEW' || c.l2ReviewStatus === 'PENDING')) {
+      this.setState({ route:'denied', denied:'This investigation has moved to L2 review. Secondary review pages are restricted to the assigned L2 reviewer — you can see its status in the Inbox, but the case is no longer open to you.' });
+      return;
+    }
+    this.setState({ selectedId:id, route:'review', subDecision:'', subReason:'', subComment:'', subError:'', openStories:{} });
+  }
+
+  logActivity(text, caseId, kind) {
+    const who = this.state.user ? this.state.user.name : 'System';
+    const stamp = '16 Sep 2026 ' + new Date().toTimeString().slice(0,5);
+    this.setState(s => ({ activity: [{ text:text, meta: who + ' · ' + caseId, date: stamp, kind: kind || 'info', caseId: caseId }].concat(s.activity) }));
+  }
+
+  patchCase(id, patch) {
+    this.setState(s => ({ cases: s.cases.map(c => c.id === id ? Object.assign({}, c, patch, { updatedAt:'2026-09-16' }) : c) }));
+  }
+
+  // ---------- review actions ----------
+  setArticle(articleKey, value) {
+    this.setState(s => {
+      const sameBucket = s.decisionsByArticle[articleKey] === value;
+      const reason = sameBucket ? s.articleReason[articleKey] : '';
+      return {
+        decisionsByArticle: Object.assign({}, s.decisionsByArticle, { [articleKey]: value }),
+        articleReason: Object.assign({}, s.articleReason, { [articleKey]: reason || '' }),
+        confirmed: Object.assign({}, s.confirmed, { [articleKey]: !!reason })
+      };
+    });
+  }
+
+  setArticleReason(articleKey, value) {
+    this.setState(s => ({
+      articleReason: Object.assign({}, s.articleReason, { [articleKey]: value }),
+      confirmed: Object.assign({}, s.confirmed, { [articleKey]: !!value })
+    }));
+  }
+
+  currentCase() { return this.state.cases.find(c => c.id === this.state.selectedId) || null; }
+
+  manualCount(c) {
+    const d = this.state.decisionsByArticle;
+    let n = 0;
+    c.stories.forEach(s => s.articles.forEach(a => { if ((d[a.key] || 'MANUAL_REVIEW') === 'MANUAL_REVIEW') n++; }));
+    return n;
+  }
+
+  decidedCount(c) {
+    const d = this.state.confirmed;
+    let n = 0;
+    c.stories.forEach(s => s.articles.forEach(a => { if (d[a.key]) n++; }));
+    return n;
+  }
+
+  submitReview() {
+    const c = this.currentCase(); if (!c) return;
+    const s = this.state;
+    const isL1 = this.canActL1(c), isL2 = this.canActL2(c), isSign = this.canSignOff(c);
+    if (!isL1 && !isL2 && !isSign) { this.setState({ route:'denied', denied:'You don\u2019t have permission to submit a decision on this investigation at its current stage.' }); return; }
+    if (!isSign) {
+      if (this.decidedCount(c) < c.articleCount) { this.setState({ subError:'Confirm or move every article — auto-sorted items still need reviewer confirmation.' }); return; }
+      if (isL1) {
+        const stuck = this.manualCount(c);
+        if (stuck > 0) { this.setState({ subError: stuck + ' article' + (stuck === 1 ? '' : 's') + ' remain in Manual review. Resolve each into Relevant or Not relevant before submitting.' }); return; }
+      }
+      if (!isL1 && !s.subDecision) { this.setState({ subError:'Select a decision.' }); return; }
+      if (!isL1 && !s.subReason) { this.setState({ subError:'Select a reason.' }); return; }
+      if (!String(s.subComment).trim()) { this.setState({ subError: isL1 && c.l2ReviewRequired ? 'Add a note for the L2 reviewer.' : 'Add a comment for the audit trail.' }); return; }
+    }
+    const entry = { stage: isL1 ? 'L1 Review' : isL2 ? 'L2 Review' : 'Sign-off', decision: isSign ? 'Signed off' : isL1 ? (c.l2ReviewRequired ? 'L1 complete · escalated to L2' : 'L1 complete') : s.subDecision, reason: isSign ? 'Workflow complete' : isL1 ? (c.l2ReviewRequired ? 'Handover note to L2' : 'L1 triage complete') : s.subReason, comment: isSign ? 'Final outcome recorded by administrator.' : s.subComment, reviewer: s.user.name, date:'16 Sep 2026' };
+    const decisions = (c.decisions || []).concat([entry]);
+
+    const snapshot = {};
+    c.stories.forEach(st => st.articles.forEach(a => { snapshot[a.key] = s.decisionsByArticle[a.key] || 'UNDECIDED'; }));
+
+    if (isL1) {
+      if (c.l2ReviewRequired) {
+        this.patchCase(c.id, { l1ReviewStatus:'COMPLETED', l2ReviewStatus:'PENDING', status:'L2_REVIEW', assignedL2Reviewer: c.assignedL2Reviewer || 'USR-002', l1Buckets: snapshot, decisions: decisions });
+        this.logActivity('L1 review completed · escalated to L2', c.id, 'l1');
+      } else {
+        this.patchCase(c.id, { l1ReviewStatus:'COMPLETED', l2ReviewStatus:'NOT_REQUIRED', status:'AWAITING_SIGN_OFF', l1Buckets: snapshot, decisions: decisions });
+        this.logActivity('L1 review completed · awaiting sign off', c.id, 'l1');
+      }
+    } else if (isL2) {
+      this.patchCase(c.id, { l2ReviewStatus:'COMPLETED', status:'AWAITING_SIGN_OFF', decisions: decisions });
+      this.logActivity('L2 review completed · awaiting sign off', c.id, 'l2');
+    } else {
+      this.patchCase(c.id, { status:'COMPLETED', decisions: decisions });
+      this.logActivity('Final sign-off recorded', c.id, 'done');
+    }
+    const handOff = isL1 && c.l2ReviewRequired;
+    this.setState({ subDecision:'', subReason:'', subComment:'', subError:'', route: handOff ? 'dashboard' : s.route, selectedId: handOff ? null : s.selectedId });
+  }
+
+  // ---------- new investigation / processing ----------
+  pickFile(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const ok = f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
+    if (!ok) { this.setState(s => ({ draft: Object.assign({}, s.draft, { fileError:true, file:null }) })); return; }
+    this.setState(s => ({ draft: Object.assign({}, s.draft, { fileError:false, file:{ name:f.name, size:f.size } }) }));
+  }
+
+  startProcessing() {
+    const d = this.state.draft;
+    if (!d.file || !String(d.entityName).trim()) return;
+    if (!this.canCreate()) { this.setState({ route:'denied', denied:'Only L1 reviewers can create investigations.' }); return; }
+    const nextNum = 140 + this.state.cases.filter(c => c.id > 'CASE-00138').length;
+    const id = 'CASE-00' + nextNum;
+    const nc = mkCase({ id:id, entityName: d.entityName.trim(), entityType: d.entityType, riskLevel:'Medium', status:'PROCESSING',
+      categories: d.categories.slice(), assignedL1Reviewer: this.state.user.id,
+      assignedL2Reviewer: d.l2Required ? 'USR-002' : null,
+      l2ReviewRequired: d.l2Required, l1ReviewStatus:'NOT_STARTED',
+      l2ReviewStatus: d.l2Required ? 'NOT_STARTED' : 'NOT_REQUIRED', createdAt:'2026-09-16', updatedAt:'2026-09-16' });
+    this.setState(s => ({ cases: [nc].concat(s.cases), procCaseId:id, selectedId:id, route:'processing', progress:0 }));
+    this.logActivity('Investigation opened', id, 'info');
+    clearInterval(this._timer);
+    this._timer = setInterval(() => {
+      this.setState(s => {
+        const next = Math.min(100, s.progress + (s.progress < 70 ? 6 + Math.round(Math.random() * 9) : 4 + Math.round(Math.random() * 6)));
+        if (next >= 100) {
+          clearInterval(this._timer);
+          setTimeout(() => {
+            this.patchCase(id, { status:'L1_REVIEW', l1ReviewStatus:'IN_PROGRESS' });
+            this.logActivity('Processing completed', id, 'info');
+          }, 260);
+        }
+        return { progress: next };
+      });
+    }, 620);
+  }
+
+  // ---------- filtering ----------
+  filtered() {
+    const s = this.state, f = s.filters, q = String(s.query).trim().toLowerCase(), me = s.user ? s.user.id : null;
+    let list = s.cases.slice();
+    if (q) list = list.filter(c => (c.id + ' ' + c.entityName).toLowerCase().indexOf(q) >= 0);
+    if (f.status.length) list = list.filter(c => f.status.indexOf(STATUS[c.status].label) >= 0);
+    if (f.risk.length) list = list.filter(c => f.risk.indexOf(c.riskLevel) >= 0);
+    if (f.category.length) list = list.filter(c => c.categories.some(x => f.category.indexOf(x) >= 0));
+    if (f.assignment === 'me') list = list.filter(c => this.assignedToMe(c));
+    if (f.assignment === 'unassigned') list = list.filter(c => !c.assignedL1Reviewer && !c.assignedL2Reviewer);
+    if (f.assignment === 'other') list = list.filter(c => (c.assignedL1Reviewer || c.assignedL2Reviewer) && !this.assignedToMe(c));
+    if (f.l2 === 'required') list = list.filter(c => c.l2ReviewRequired);
+    if (f.l2 === 'not_required') list = list.filter(c => !c.l2ReviewRequired);
+    if (f.l2 === 'pending') list = list.filter(c => c.l2ReviewStatus === 'PENDING');
+    if (f.l2 === 'completed') list = list.filter(c => c.l2ReviewStatus === 'COMPLETED');
+    if (f.dateFrom) list = list.filter(c => c.createdAt >= f.dateFrom);
+    if (f.dateTo) list = list.filter(c => c.createdAt <= f.dateTo);
+
+    const tab = s.tab;
+    if (tab === 'me') list = list.filter(c => this.assignedToMe(c));
+    else if (tab === 'queue') list = list.filter(c => this.myQueueCases().some(x => x.id === c.id));
+    else if (tab === 'l2') list = list.filter(c => c.l2ReviewRequired);
+    else if (tab === 'done') list = list.filter(c => c.status === 'COMPLETED');
+    return list;
+  }
+
+  caseView(c) {
+    const st = STATUS[c.status], rk = RISK[c.riskLevel];
+    const canL1 = this.canActL1(c), canL2 = this.canActL2(c), canSign = this.canSignOff(c);
+    let actLabel = 'View investigation', actNote = 'Read-only — you cannot action this stage.';
+    if (canL1) { actLabel = 'Open L1 Review'; actNote = 'Assigned to you for L1 review.'; }
+    else if (canL2) { actLabel = 'Open L2 Review'; actNote = 'Ready for your secondary review.'; }
+    else if (canSign) { actLabel = 'Open sign-off'; actNote = 'Final outcome awaiting administrator sign-off.'; }
+    else if (c.status === 'L2_REVIEW') {
+      actNote = 'Secondary review outstanding with the assigned L2 reviewer.';
+      if (this.isL1()) { actLabel = 'L2 in progress · locked'; actNote = 'Status only — L2 review pages are restricted to the assigned L2 reviewer.'; }
+    }
+    const primary = canL1 || canL2 || canSign;
+    return {
+      id:c.id, entityName:c.entityName,
+      entityTypeLabel: c.entityType === 'PERSON' ? 'Person' : 'Organisation',
+      statusLabel:st.label, statusBg:st.bg, statusFg:st.fg,
+      riskLabel:c.riskLevel, riskBg:rk.bg, riskFg:rk.fg,
+      articleCount:c.articleCount, storyCount:c.storyCount,
+      categories: c.categories.map(n => ({ name:n })),
+      l1Name: nameOf(c.assignedL1Reviewer), l1StatusLabel: REVIEW_STATE[c.l1ReviewStatus] || c.l1ReviewStatus,
+      l2Name: c.l2ReviewRequired ? nameOf(c.assignedL2Reviewer) : '—',
+      l2RequiredLabel: c.l2ReviewRequired ? 'Yes' : 'No',
+      l2StatusLabel: c.l2ReviewRequired ? (REVIEW_STATE[c.l2ReviewStatus] || c.l2ReviewStatus) : 'Not required',
+      updatedLabel: c.updatedAt,
+      metaLine: (c.entityType === 'PERSON' ? 'Person' : 'Organisation') + ' · ' + c.articleCount + ' articles · ' + c.storyCount + ' stories',
+      assignLine: 'Assigned to: ' + nameOf(c.assignedL1Reviewer) + (c.l2ReviewRequired ? ' · L2: ' + nameOf(c.assignedL2Reviewer) : ''),
+      actLabel: actLabel, actNote: actNote,
+      actBg: primary ? '#1f6feb' : '#ffffff',
+      actFg: primary ? '#ffffff' : '#0b2545',
+      actBorder: primary ? '#1f6feb' : '#dde7f3',
+      onOpen: () => this.openCase(c.id)
+    };
+  }
+
+  chip(label, on) {
+    return { label:label, on:on,
+      bg: on ? '#eaf3ff' : '#ffffff', fg: on ? '#0e4396' : '#3c5a7e', border: on ? '#a9cdff' : '#dde7f3' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const dot = { l1:'#1f6feb', l2:'#7c3aed', done:'#1a6b42', info:'#8098b4' };
+    const acts = s.activity.map(a => ({ text:a.text, meta:a.meta + ' · ' + a.date, dot: dot[a.kind] || dot.info }));
+
+    const base = {
+      isLogin: s.route === 'login',
+      isApp: s.route !== 'login',
+      atIdStep: s.loginStep === 'id',
+      atPasswordStep: s.loginStep === 'password',
+      loginEmail: s.loginEmail, loginError: s.loginError,
+      loginPassword: s.loginPassword, passwordError: s.passwordError,
+      passwordInputType: s.showPassword ? 'text' : 'password',
+      passwordToggleLabel: s.showPassword ? 'Hide' : 'Show',
+      pendingName: s.pendingIdent ? s.pendingIdent.name : '',
+      pendingInitials: s.pendingIdent ? initials(s.pendingIdent.name) : '',
+      showDemo: this.props.showDemoIdentities !== false,
+      directory: USERS.filter(u => LOGIN_IDS.indexOf(u.id) >= 0).map(u => ({
+        name:u.name, initials: initials(u.name), roleLabel: ROLE_LABEL[u.role], onPick: () => this.checkId(u.email) })),
+      onLoginEmail: e => this.setState({ loginEmail: e.target.value, loginError:false }),
+      onLoginPassword: e => this.setState({ loginPassword: e.target.value, passwordError:false }),
+      onIdKeyDown: e => { if (e.key === 'Enter') this.checkId(s.loginEmail); },
+      onPasswordKeyDown: e => { if (e.key === 'Enter') this.signIn(); },
+      onCheckId: () => this.checkId(s.loginEmail),
+      onBackToId: () => this.setState({ loginStep:'id', loginPassword:'', passwordError:false, showPassword:false, pendingIdent:null }),
+      onTogglePassword: () => this.setState({ showPassword: !s.showPassword }),
+      onSignIn: () => this.signIn(),
+      onLogout: () => this.logout()
+    };
+    if (!s.user) return base;
+
+    const me = s.user.id;
+    const myQueue = this.myQueueCases();
+    const l2Required = s.cases.filter(c => c.l2ReviewRequired && c.l2ReviewStatus === 'PENDING');
+    const myL2 = l2Required.filter(c => c.assignedL2Reviewer === me);
+    const titles = { dashboard:'Dashboard', inbox:'Inbox', config:'Config', new:'New Investigation', processing:'Processing', review:'Review', denied:'Access denied' };
+
+    const shell = {
+      canCreate: this.canCreate(),
+      navItems: [
+        { key:'dashboard', label:'Dashboard', glyph:'DB', count:'' },
+        { key:'inbox', label:'Inbox', glyph:'IN', count: String(s.cases.filter(c => this.assignedToMe(c)).length || '') }
+      ].concat(this.isAdmin() ? [{ key:'config', label:'Config', glyph:'CF', count:'' }] : []).map(it => {
+        const on = s.route === it.key;
+        return { label:it.label, glyph:it.glyph, count:it.count,
+          bg: on ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.05)',
+          fg: on ? '#ffffff' : 'rgba(255,255,255,.84)',
+          border: on ? 'rgba(255,255,255,.28)' : 'rgba(255,255,255,.11)',
+          shadow: on ? 'inset 3px 0 0 #1f6feb' : 'none',
+          tileBg: on ? '#1f6feb' : 'rgba(255,255,255,.10)',
+          tileFg: on ? '#ffffff' : 'rgba(255,255,255,.70)',
+          onClick: () => this.go(it.key) };
+      }),
+      userName: s.user.name, userInitials: initials(s.user.name), userRoleLabel: ROLE_LABEL[s.user.role],
+      onNew: () => this.go('new'),
+      onGoDashboard: () => this.go('dashboard'),
+      pageTitle: titles[s.route] || 'Finovrr',
+      crumb: 'Finovrr · ' + (titles[s.route] || ''),
+      isDashboard: s.route === 'dashboard', isInbox: s.route === 'inbox', isConfig: s.route === 'config' && this.isAdmin(),
+      isNew: s.route === 'new', isProcessing: s.route === 'processing', isReview: s.route === 'review' && !!this.currentCase(),
+      isDenied: s.route === 'denied', deniedMessage: s.denied,
+      activityFeed: acts.slice(0, 7)
+    };
+
+    // dashboard
+    const tiles = this.isAdmin() ? [
+      { label:'Open investigations', value: String(s.cases.filter(c => c.status !== 'COMPLETED').length), unit:'active', note:'Across all reviewers', color:'#0b2545' },
+      { label:'In L1 review', value: String(s.cases.filter(c => c.status === 'L1_REVIEW').length), unit:'cases', note:'Primary review in progress', color:'#0e4396' },
+      { label:'In L2 review', value: String(s.cases.filter(c => c.status === 'L2_REVIEW').length), unit:'cases', note:'Secondary review outstanding', color:'#5b2ea8' },
+      { label:'Awaiting sign off', value: String(s.cases.filter(c => c.status === 'AWAITING_SIGN_OFF').length), unit:'cases', note:'Final outcome pending', color:'#8a5300' },
+      { label:'Completed', value: String(s.cases.filter(c => c.status === 'COMPLETED').length), unit:'cases', note:'Closed this period', color:'#1a6b42' }
+    ] : [
+      { label:'Actionable by me', value: String(myQueue.length), unit:'cases', note: this.isL1() ? 'L1 work assigned to you' : 'L2 work assigned to you', color:'#0e4396' },
+      { label:'Articles to decide', value: String(myQueue.reduce((n,c) => n + c.articleCount, 0)), unit:'articles', note:'Across your queue', color:'#0b2545' },
+      { label:'High or critical', value: String(myQueue.filter(c => c.riskLevel === 'High' || c.riskLevel === 'Critical').length), unit:'cases', note:'Prioritise these first', color:'#9a4a06' },
+      { label: this.isL1() ? 'Completed by me' : 'L2 completed', value: String(s.cases.filter(c => this.isL1() ? (c.assignedL1Reviewer === me && c.l1ReviewStatus === 'COMPLETED') : (c.assignedL2Reviewer === me && c.l2ReviewStatus === 'COMPLETED')).length), unit:'cases', note:'Historic record', color:'#1a6b42' }
+    ];
+
+    const l2Actionable = this.isL2() && myL2.length > 0;
+    const l2Card = {
+      headline: (l2Actionable ? myL2.length : l2Required.length) + ' investigation' + ((l2Actionable ? myL2.length : l2Required.length) === 1 ? '' : 's'),
+      sub: l2Actionable ? 'Ready for your review' : this.isL1() ? 'L1 review complete · secondary review outstanding' : 'Secondary review outstanding with assigned L2 reviewers',
+      cta: l2Actionable ? 'View L2 reviews' : 'View L2 status',
+      bg: l2Actionable ? '#f6f1fe' : '#ffffff',
+      border: l2Actionable ? '#ddd0f7' : '#dde7f3',
+      kicker: l2Actionable ? '#5b2ea8' : '#5b7391',
+      ctaBg: l2Actionable ? '#5b2ea8' : '#ffffff',
+      ctaFg: l2Actionable ? '#ffffff' : '#0b2545',
+      ctaBorder: l2Actionable ? '#5b2ea8' : '#dde7f3',
+      onCta: () => this.setState({ route:'inbox', tab:'l2', denied:'' })
+    };
+
+    const dash = {
+      tiles: tiles,
+      l2Card: l2Card,
+      myQueue: myQueue.map(c => this.caseView(c)),
+      hasQueue: myQueue.length > 0, queueEmpty: myQueue.length === 0,
+      queueNote: this.isL1() ? 'L1 work assigned to you' : this.isL2() ? 'L2 work assigned to you' : 'Administrative sign-off',
+      recent: s.cases.slice().sort((a,b) => a.createdAt < b.createdAt ? 1 : -1).slice(0,5).map(c => this.caseView(c))
+    };
+
+    // inbox
+    const p = s.pending;
+    const results = this.filtered();
+    const activeCount = p.status.length + p.risk.length + p.category.length + (p.assignment !== 'any' ? 1 : 0) + (p.l2 !== 'any' ? 1 : 0) + (p.dateFrom ? 1 : 0) + (p.dateTo ? 1 : 0);
+    const toggleIn = (key, val) => this.setState(st => {
+      const arr = st.pending[key].slice();
+      const i = arr.indexOf(val);
+      if (i >= 0) arr.splice(i,1); else arr.push(val);
+      return { pending: Object.assign({}, st.pending, { [key]: arr }) };
+    });
+    const setPending = (key, val) => this.setState(st => ({ pending: Object.assign({}, st.pending, { [key]: st.pending[key] === val ? 'any' : val }) }));
+    const tabDefs = [
+      { key:'me', label:'Assigned to me' },
+      { key:'queue', label:'My work queue' },
+      { key:'all', label:'All investigations' },
+      { key:'l2', label:'L2 required' },
+      { key:'done', label:'Completed' }
+    ];
+    const countFor = key => {
+      const all = s.cases;
+      if (key === 'me') return all.filter(c => this.assignedToMe(c)).length;
+      if (key === 'queue') return myQueue.length;
+      if (key === 'l2') return all.filter(c => c.l2ReviewRequired).length;
+      if (key === 'done') return all.filter(c => c.status === 'COMPLETED').length;
+      return all.length;
+    };
+
+    const inbox = {
+      query: s.query,
+      onQuery: e => this.setState({ query: e.target.value }),
+      filtersOpen: s.filtersOpen,
+      onToggleFilters: () => this.setState({ filtersOpen: !s.filtersOpen }),
+      filterBtn: { label: activeCount ? 'Filters · ' + activeCount : 'Filters',
+        bg: s.filtersOpen || activeCount ? '#eaf3ff' : '#ffffff',
+        fg: s.filtersOpen || activeCount ? '#0e4396' : '#0b2545',
+        border: s.filtersOpen || activeCount ? '#a9cdff' : '#dde7f3' },
+      statusOptions: Object.keys(STATUS).map(k => Object.assign(this.chip(STATUS[k].label, p.status.indexOf(STATUS[k].label) >= 0), { onToggle: () => toggleIn('status', STATUS[k].label) })),
+      riskOptions: ['Critical','High','Medium','Low'].map(r => Object.assign(this.chip(r, p.risk.indexOf(r) >= 0), { onToggle: () => toggleIn('risk', r) })),
+      categoryOptions: CATEGORIES.map(c => Object.assign(this.chip(c, p.category.indexOf(c) >= 0), { onToggle: () => toggleIn('category', c) })),
+      assignOptions: [['me','Assigned to me'],['unassigned','Unassigned'],['other','Another reviewer']].map(o => Object.assign(this.chip(o[1], p.assignment === o[0]), { onToggle: () => setPending('assignment', o[0]) })),
+      l2Options: [['required','L2 required'],['not_required','L2 not required'],['pending','L2 pending'],['completed','L2 completed']].map(o => Object.assign(this.chip(o[1], p.l2 === o[0]), { onToggle: () => setPending('l2', o[0]) })),
+      dateFrom: p.dateFrom, dateTo: p.dateTo,
+      onDateFrom: e => this.setState(st => ({ pending: Object.assign({}, st.pending, { dateFrom: e.target.value }) })),
+      onDateTo: e => this.setState(st => ({ pending: Object.assign({}, st.pending, { dateTo: e.target.value }) })),
+      onApplyFilters: () => this.setState(st => ({ filters: Object.assign({}, st.pending) })),
+      onClearFilters: () => { const empty = { status:[], risk:[], category:[], assignment:'any', l2:'any', dateFrom:'', dateTo:'' }; this.setState({ pending: empty, filters: empty, query:'' }); },
+      tabs: tabDefs.map(t => { const on = s.tab === t.key; return {
+        label:t.label, count: String(countFor(t.key)),
+        bg: on ? '#0b2545' : '#ffffff', fg: on ? '#ffffff' : '#0b2545', border: on ? '#0b2545' : '#dde7f3',
+        countBg: on ? 'rgba(255,255,255,.18)' : '#f1f6fc', countFg: on ? '#ffffff' : '#3c5a7e',
+        onClick: () => this.setState({ tab: t.key }) }; }),
+      results: results.map(c => this.caseView(c)),
+      noResults: results.length === 0
+    };
+
+    // config
+    const config = {
+      configUsers: USERS.map(u => ({ name:u.name, email:u.email, initials: initials(u.name), roleLabel: ROLE_LABEL[u.role] })),
+      configCategories: CATEGORIES.map(c => ({ name:c })),
+      configRules: [
+        { label:'L2 review flag', note:'Set per investigation at creation', value:'Enabled', bg:'#e8f6ee', fg:'#1a6b42' },
+        { label:'L1 completion without L2', note:'Routes to awaiting sign off', value:'Sign-off', bg:'#fff4e2', fg:'#8a5300' },
+        { label:'Reviewer assignment', note:'Workflow-assigned from identity pool', value:'Automatic', bg:'#eaf3ff', fg:'#0e4396' },
+        { label:'Cross-stage actions', note:'L1 cannot complete L2, and vice versa', value:'Blocked', bg:'#fdeaea', fg:'#9b1c1c' }
+      ]
+    };
+
+    // new investigation + processing stepper
+    const d = s.draft;
+    const stepIdx = s.route === 'new' ? 0 : s.route === 'processing' ? 1 : 2;
+    const steps = ['Upload','Processing','Review'].map((label, i) => {
+      const on = i === stepIdx, done = i < stepIdx;
+      return { num: String(i + 1), label: label,
+        note: i === 0 ? 'Source document and case details' : i === 1 ? 'Automated extraction' : 'L1 / L2 decisioning',
+        bg: on ? '#eaf3ff' : '#ffffff', border: on ? '#a9cdff' : '#dde7f3',
+        fg: on ? '#0e4396' : done ? '#1a6b42' : '#0b2545',
+        numBg: on ? '#1f6feb' : done ? '#1a6b42' : '#eef2f7',
+        numFg: on || done ? '#ffffff' : '#5b7391' };
+    });
+    const checklist = (label, ok) => ({ label:label, mark: ok ? '✓' : '', bg: ok ? '#1a6b42' : '#e5ecf5', tick:'#ffffff', fg: ok ? '#0b2545' : '#5b7391' });
+    const proceedOk = !!d.file && !!String(d.entityName).trim();
+    const newPage = {
+      noFile: !d.file, hasFile: !!d.file, fileError: d.fileError,
+      fileName: d.file ? d.file.name : '', fileSize: d.file ? (Math.max(1, Math.round(d.file.size / 1024)) + ' KB') : '',
+      onPickFile: e => this.pickFile(e),
+      onRemoveFile: () => this.setState(st => ({ draft: Object.assign({}, st.draft, { file:null, fileError:false }) })),
+      entityName: d.entityName, onEntityName: e => this.setState(st => ({ draft: Object.assign({}, st.draft, { entityName: e.target.value }) })),
+      clientId: d.clientId, onClientId: e => this.setState(st => ({ draft: Object.assign({}, st.draft, { clientId: e.target.value }) })),
+      source: d.source,
+      onSource: e => this.setState(st => ({ draft: Object.assign({}, st.draft, { source: e.target.value }) })),
+      knownClient: d.knownClient, onKnownClient: e => this.setState(st => ({ draft: Object.assign({}, st.draft, { knownClient: e.target.value }) })),
+      entityTypeOptions: [['ORGANISATION','Organisation'],['PERSON','Person']].map(o => Object.assign(this.chip(o[1], d.entityType === o[0]), { onPick: () => this.setState(st => ({ draft: Object.assign({}, st.draft, { entityType:o[0] }) })) })),
+      draftCategories: CATEGORIES.map(c => Object.assign(this.chip(c, d.categories.indexOf(c) >= 0), { onToggle: () => this.setState(st => {
+        const arr = st.draft.categories.slice(); const i = arr.indexOf(c); if (i >= 0) arr.splice(i,1); else arr.push(c);
+        return { draft: Object.assign({}, st.draft, { categories: arr }) }; }) })),
+      l2Required: d.l2Required,
+      l2CheckBg: d.l2Required ? '#eaf3ff' : '#ffffff', l2CheckBorder: d.l2Required ? '#a9cdff' : '#dde7f3',
+      onToggleL2: () => this.setState(st => ({ draft: Object.assign({}, st.draft, { l2Required: !st.draft.l2Required }) })),
+      newChecklist: [
+        checklist('PDF source document attached', !!d.file),
+        checklist('Entity name provided', !!String(d.entityName).trim()),
+        checklist('Client ID added (optional)', !!String(d.clientId).trim()),
+        checklist(d.l2Required ? 'L2 review required — flagged' : 'L2 review not required', true)
+      ],
+      proceedDisabled: !proceedOk, proceedCursor: proceedOk ? 'pointer' : 'not-allowed',
+      proceedBg: proceedOk ? '#1f6feb' : '#e5ecf5', proceedFg: proceedOk ? '#ffffff' : '#8098b4',
+      onProceed: () => this.startProcessing(),
+      steps: steps
+    };
+
+    const pct = s.progress;
+    const stageCount = PROC_STAGES.length;
+    const activeStage = Math.min(stageCount - 1, Math.floor(pct / (100 / stageCount)));
+    const processing = {
+      progressLabel: pct + '%', progressWidth: pct + '%',
+      procColor: pct >= 100 ? '#1a6b42' : '#1f6feb',
+      procTitle: pct >= 100 ? 'Processing complete' : 'Processing the file',
+      procSub: pct >= 100 ? 'The investigation workspace is ready for L1 review.' : PROC_STAGES[activeStage].label + ' — this usually takes under a minute.',
+      stages: PROC_STAGES.map((st, i) => {
+        const done = pct >= 100 || i < activeStage, now = pct < 100 && i === activeStage;
+        return { label:st.label, note: done ? 'Complete' : now ? 'In progress' : 'Queued',
+          mark: done ? '✓' : now ? '•' : '',
+          bg: done ? '#1a6b42' : now ? '#1f6feb' : '#e5ecf5',
+          fg: done || now ? '#ffffff' : '#8098b4',
+          border: now ? '#a9cdff' : '#dde7f3' };
+      }),
+      continueDisabled: pct < 100, continueCursor: pct < 100 ? 'not-allowed' : 'pointer',
+      continueBg: pct < 100 ? '#e5ecf5' : '#1f6feb', continueFg: pct < 100 ? '#8098b4' : '#ffffff',
+      onContinueToReview: () => { if (pct >= 100) this.openCase(s.procCaseId || s.selectedId); }
+    };
+
+    // review
+    let review = { rv:null, sub:null };
+    const c = this.currentCase();
+    if (c) {
+      const decided = this.decidedCount(c);
+      const canL1 = this.canActL1(c), canL2 = this.canActL2(c), canSign = this.canSignOff(c);
+      const stage = canL1 ? 'L1' : canL2 ? 'L2' : canSign ? 'SIGN' : 'NONE';
+      const cv = this.caseView(c);
+      const locked = stage === 'NONE' || stage === 'SIGN';
+      const riskOrder = { Critical:0, High:1, Medium:2, Low:3 };
+      const itemsFor = bucketKey => {
+        const bk = BUCKETS.find(x => x.key === bucketKey);
+        const items = [];
+        c.stories.forEach(st => st.articles.forEach(a => {
+          const cur = s.decisionsByArticle[a.key] || 'MANUAL_REVIEW';
+          if (cur !== bucketKey) return;
+          const l1Prev = (c.l1Buckets || {})[a.key];
+          const amended = stage === 'L2' && l1Prev && l1Prev !== cur;
+          const prevMeta = BUCKETS.find(x => x.key === l1Prev);
+          const reason = s.articleReason[a.key] || '';
+          const seen = !!s.confirmed[a.key] && !!reason;
+          const rk = RISK[st.risk] || RISK.Medium;
+          items.push(Object.assign({}, a, {
+            showReason: !locked,
+            reasonReadOnly: locked && !!reason,
+            reasonBorder: (!locked && !reason) ? '#e0a6a6' : '#dde7f3',
+            reason: reason,
+            reasonMissing: !locked && !reason,
+            reasonText: reason || 'No reason recorded',
+            reasonOptions: [{ value:'', label:'Select a reason for this decision…' }].concat((ARTICLE_REASONS[cur] || []).map(r => ({ value:r, label:r }))),
+            onReason: e => this.setArticleReason(a.key, e.target.value),
+            storyTitle: st.title, category: st.category,
+            riskLabel: st.risk, riskBg: rk.bg, riskFg: rk.fg, riskRank: riskOrder[st.risk] === undefined ? 3 : riskOrder[st.risk],
+            highRisk: st.risk === 'Critical' || st.risk === 'High',
+            reviewed: seen, notReviewed: !seen,
+            rowBg: seen ? '#fcfdff' : '#ffffff',
+            rowAccent: seen ? bk.solid : '#e5ecf5',
+            reviewedKey: a.key + ':' + cur,
+            amended: !!amended,
+            amendedNote: amended ? 'Amended from L1 · ' + (prevMeta ? prevMeta.short : l1Prev) : '',
+            choices: BUCKETS.map(x => {
+              const on = cur === x.key;
+              return { label: x.short, disabled: locked, cursor: locked ? 'not-allowed' : 'pointer',
+                bg: on ? x.solid : '#ffffff', fg: on ? '#ffffff' : locked ? '#8098b4' : '#3c5a7e',
+                border: on ? x.solid : '#dde7f3',
+                onPick: () => { if (!locked) this.setArticle(a.key, x.key); } };
+            })
+          }));
+        }));
+        return items;
+      };
+      const byRisk = list => list.slice().sort((a, b) => a.riskRank - b.riskRank);
+      const l2Relevant = byRisk(itemsFor('RELEVANT'));
+      const l2Manual = byRisk(itemsFor('MANUAL_REVIEW'));
+      const l2NotRelevant = byRisk(itemsFor('NOT_RELEVANT'));
+      const notRelOpen = !!s.openStories.L2_NOT_RELEVANT;
+      const rv = Object.assign({}, cv, {
+        decidedCount: String(decided),
+        progressWidth: (c.articleCount ? Math.round(decided / c.articleCount * 100) : 0) + '%',
+        isL2View: stage === 'L2',
+        l1Note: (function(){ const l1 = (c.decisions || []).filter(x => x.stage === 'L1 Review').pop(); return l1 ? l1.comment : ''; })(),
+        hasL1Note: (c.decisions || []).some(x => x.stage === 'L1 Review' && x.comment),
+        isBucketView: stage !== 'L2',
+        l2Summary: BUCKETS.map(bk => {
+          const n = itemsFor(bk.key).length;
+          return { title: bk.title, count: String(n), bg: bk.tint, border: bk.border, chipBg: bk.chipBg, chipFg: bk.chipFg,
+            note: bk.key === 'RELEVANT' ? 'Retained by L1' : bk.key === 'MANUAL_REVIEW' ? 'Flagged for a second look' : 'Discounted by L1' };
+        }),
+        l2HighRiskCount: String(l2Relevant.filter(a => a.highRisk).length),
+        l2Relevant: l2Relevant, l2RelevantEmpty: l2Relevant.length === 0,
+        l2Manual: l2Manual, l2ManualEmpty: l2Manual.length === 0, l2ManualCount: String(l2Manual.length),
+        showL2Manual: l2Manual.length > 0,
+        l2NotRelevant: l2NotRelevant, l2NotRelevantCount: String(l2NotRelevant.length),
+        l2NotRelOpen: notRelOpen, l2NotRelCaret: notRelOpen ? '−' : '+',
+        onToggleNotRel: () => this.setState(x => ({ openStories: Object.assign({}, x.openStories, { L2_NOT_RELEVANT: !x.openStories.L2_NOT_RELEVANT }) })),
+        buckets: BUCKETS.map(bk => {
+          const open = s.openStories[bk.key] !== false;
+          const items = itemsFor(bk.key);
+          return {
+            key: bk.key, title: bk.title, note: bk.note, open: open,
+            caret: open ? '−' : '+',
+            count: String(items.length),
+            articles: items, empty: items.length === 0, emptyNote: bk.emptyNote,
+            cardBorder: bk.border, headBg: bk.tint, headBorder: open ? '#e6eef8' : 'transparent',
+            caretBg: bk.chipBg, caretFg: bk.chipFg, titleFg: bk.chipFg,
+            countBg: bk.chipBg, countFg: bk.chipFg,
+            onToggle: () => this.setState(x => ({ openStories: Object.assign({}, x.openStories, { [bk.key]: x.openStories[bk.key] === false }) }))
+          };
+        }),
+        decisions: (c.decisions || []).map(x => Object.assign({}, x, {
+          bg: x.decision === 'Escalate' ? '#f3ecfd' : x.decision === 'Confirm risk' ? '#fff1e6' : '#e8f6ee',
+          fg: x.decision === 'Escalate' ? '#5b2ea8' : x.decision === 'Confirm risk' ? '#9a4a06' : '#1a6b42'
+        })),
+        hasDecisions: (c.decisions || []).length > 0, noDecisions: (c.decisions || []).length === 0,
+        activity: acts.filter(a => a.meta.indexOf(c.id) >= 0).slice(0, 8)
+      });
+
+      const manualLeft = this.manualCount(c);
+      const reasonList = stage === 'SIGN' ? REASONS_L1 : (REASONS_BY_DECISION[s.subDecision] || []);
+      const sub = {
+        title: stage === 'L1' ? 'Submit L1 review' : stage === 'L2' ? 'Submit L2 review' : stage === 'SIGN' ? 'Final sign-off' : 'Submission',
+        stageNote: stage === 'L1' ? 'Primary review — ' + c.id : stage === 'L2' ? 'Secondary review — ' + c.id + ' · L1 bucket decisions can be amended' : stage === 'SIGN' ? 'Administrator outcome — ' + c.id : 'Read-only — ' + c.id,
+        canAct: stage !== 'NONE',
+        readOnly: stage === 'NONE',
+        readOnlyTitle: 'No action available to you',
+        readOnlyNote: c.status === 'L2_REVIEW' && this.isL1()
+          ? 'L1 review is complete. Secondary review sits with the assigned L2 reviewer — you can see the status but cannot complete L2.'
+          : c.status === 'L1_REVIEW' && this.isL2()
+            ? 'This investigation is in L1 review. You can view it for context; L1 completion is not an L2 action.'
+            : this.isAdmin()
+              ? 'Administrators monitor the workflow. Reviewer actions require an L1 or L2 reviewer identity.'
+              : 'This investigation is not assigned to you at its current stage.',
+        checklist: stage === 'SIGN' ? [
+          checklist('L1 review completed', c.l1ReviewStatus === 'COMPLETED'),
+          checklist('L2 review completed or not required', c.l2ReviewStatus === 'COMPLETED' || !c.l2ReviewRequired),
+          checklist('Decision history recorded', (c.decisions || []).length > 0)
+        ] : stage === 'L1' ? [
+          checklist('All ' + c.articleCount + ' articles reviewed', decided === c.articleCount),
+          checklist('Manual review cleared' + (manualLeft ? ' — ' + manualLeft + ' outstanding' : ''), manualLeft === 0),
+          checklist(c.l2ReviewRequired ? 'Note for the L2 reviewer added' : 'Note for sign-off added', !!String(s.subComment).trim())
+        ] : [
+          checklist('All ' + c.articleCount + ' articles reviewed', decided === c.articleCount),
+          checklist('Decision selected', !!s.subDecision),
+          checklist('Reason selected', !!s.subReason),
+          checklist('Comment added', !!String(s.subComment).trim())
+        ],
+        showDecision: stage !== 'L1',
+        showReason: stage !== 'L1',
+        commentLabel: stage === 'L1' ? (c.l2ReviewRequired ? 'Note for the L2 reviewer' : 'Note for sign-off') : 'Comment',
+        commentPlaceholder: stage === 'L1'
+          ? (c.l2ReviewRequired ? 'What the L2 reviewer should focus on — unresolved items, conflicting sources, risk judgement' : 'Rationale recorded on the audit trail')
+          : 'Rationale recorded on the audit trail',
+        decisionOptions: (stage === 'SIGN' ? ['Signed off'] : ['Confirm risk','Close — no action']).map(o => Object.assign(this.chip(o, s.subDecision === o), { onPick: () => this.setState({ subDecision:o, subReason:'', subError:'' }) })),
+        reason: s.subReason,
+        reasonLabel: s.subDecision === 'Confirm risk' ? 'Reason for confirming risk' : s.subDecision === 'Close — no action' ? 'Reason for closing with no action' : 'Reason',
+        reasonOptions: [{ value:'', label: s.subDecision ? 'Select a reason…' : 'Select a decision first…' }].concat(reasonList.map(r => ({ value:r, label:r }))),
+        onReason: e => this.setState({ subReason: e.target.value, subError:'' }),
+        comment: s.subComment,
+        onComment: e => this.setState({ subComment: e.target.value, subError:'' }),
+        error: !!s.subError, errorText: s.subError,
+        submitLabel: stage === 'L1' ? 'Complete L1 review' : stage === 'L2' ? 'Complete L2 review' : 'Record sign-off',
+        onSubmit: () => this.submitReview()
+      };
+      review = { rv: rv, sub: sub };
+    }
+
+    return Object.assign(base, shell, dash, inbox, config, newPage, processing, review);
+  }
+}
+
+</script>
+</body>
+</html>
